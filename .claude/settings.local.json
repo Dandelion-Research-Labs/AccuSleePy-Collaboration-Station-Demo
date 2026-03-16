@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(venv/Scripts/python.exe -c \"import sys; print\\(sys.version\\)\")",
+      "Bash(venv/Scripts/pip.exe install:*)",
+      "Bash(venv/Scripts/python.exe -c \"import accusleepy; print\\(''accusleepy imported successfully''\\)\")"
+    ]
+  }
+}

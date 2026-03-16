@@ -1,0 +1,16 @@
+# Python bytecode (recreated on any machine)
+__pycache__/
+*.py[cod]
+*.pyo
+
+# OS metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary scratch files
+*.tmp
+*.temp
+
+# NOTE: Do NOT ignore outputs/, figures/, report/, QC_report.md, or low_confidence_epochs/
+# These are part of the reproducibility package and must remain versioned.

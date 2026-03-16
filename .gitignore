@@ -1,0 +1,33 @@
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# OS metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Scratch and temp files
+*.tmp
+*.temp
+scratch/
+tmp/
+
+# Jupyter notebooks (scratch use)
+.ipynb_checkpoints/
+
+# Logs and local debug output
+*.log
