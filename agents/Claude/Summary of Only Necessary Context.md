@@ -1,59 +1,59 @@
-# Summary of Only Necessary Context — Claude Session 7 → Session 8
+# Summary of Only Necessary Context — Claude Session 8 → Session 9
 
-_Rewritten at the end of Session 7 (2026-03-16). Read this at the start of Session 8 before doing any work._
+_Rewritten at the end of Session 8 (2026-03-16). Read this at the start of Session 9 before doing any work._
 
 ---
 
 ## Current Phase
 
-**Phase 5 is complete. Waiting for Codex, Antigravity, and Randy to review and approve before Phase 6 begins.**
+**Phase 6 is complete. Waiting for Codex, Antigravity, and Randy to review and approve before Phase 7 begins.**
 
-- Claude completed Phase 5 (Descriptive Sleep Metrics) — **Session 7 (this session)**
-- Codex and Antigravity will check the work and post findings in the Phase 5 chat
-- Randy must give explicit approval before Phase 6 begins
+- Claude completed Phase 6 (Figure Generation) — **Session 8 (this session)**
+- Codex and Antigravity will check the work and post findings in the Phase 6 chat
+- Randy must give explicit approval before Phase 7 begins
 
 ---
 
-## What Was Done in Session 7
+## What Was Done in Session 8
 
-### Phase 4 Cleanup — Complete
+### Phase 5 Cleanup — Complete
 
-- Renamed `Phase 4 - Active.md` → `Phase 4 - Concluded.md`
-- Created `chats/Claude-Codex-Antigravity-Human/Phase 4/Summary.md`
+- Renamed `chats/Claude-Codex-Antigravity-Human/Phase 5/Phase 5 - Active.md` → `Phase 5 - Concluded.md`
+- Created `chats/Claude-Codex-Antigravity-Human/Phase 5/Summary.md`
 
-### Phase 5 — Descriptive Sleep Metrics — Complete
+### Phase 6 — Figure Generation — Complete
 
-Wrote `AccuSleePy_Demo/scripts/05_sleep_metrics.py` and ran it on all 50 recordings.
+**Files written:**
 
-**CLI:**
+- `AccuSleePy_Demo/scripts/utils/plotting.py` — shared plotting constants and helpers
+- `AccuSleePy_Demo/scripts/06_figures.py` — all six figure types
+
+**Run command:**
 ```
-venv\Scripts\python.exe AccuSleePy_Demo/scripts/05_sleep_metrics.py \
+venv\Scripts\python.exe AccuSleePy_Demo/scripts/06_figures.py \
+  --sleep_metrics_csv AccuSleePy_Demo/outputs/sleep_metrics.csv \
+  --validation_csv AccuSleePy_Demo/outputs/validation_summary.csv \
   --predicted_labels_dir AccuSleePy_Demo/outputs/predicted_labels \
-  --output_path AccuSleePy_Demo/outputs/sleep_metrics.csv
+  --output_dir AccuSleePy_Demo/figures
 ```
 
-**Key design decisions:**
-- Bout computation via run-length encoding (`np.diff` on padded binary mask) — handles leading/trailing stage runs correctly
-- Transition matrix: internal indexing Wake=0, NREM=1, REM=2; row-normalized; output columns named `trans_<from>_to_<to>`
-- Low-confidence: confidence_score <= 0.8 (configurable via `--confidence_threshold`)
+**Figures produced (11 PNG files, 300 DPI):**
 
-**Results summary:**
+| Figure | Path | Notes |
+|--------|------|-------|
+| Hypnograms (×6) | `figures/hypnograms/MouseXX_Day1_hypnogram.png` | Mouse01–Mouse06, Day1 |
+| Stage percentages | `figures/stage_percentages/stage_percentages.png` | Bar chart, mean ± SEM, individual mouse points |
+| Bout duration | `figures/bout_analysis/bout_duration.png` | Grouped box plots, individual mouse points |
+| Confusion matrix | `figures/validation/confusion_matrix.png` | 3×3 heatmap, row-normalized % |
+| Kappa distribution | `figures/validation/kappa_distribution.png` | Box plot with individual recording points |
+| Transition heatmap | `figures/transitions/transition_matrix.png` | Mean 3×3 probabilities |
 
-| Metric | Mean ± SD |
-|--------|-----------|
-| % Wake | 34.53 ± 7.76% |
-| % NREM | 54.64 ± 6.16% |
-| % REM  | 10.83 ± 2.18% |
-| Mean Wake bout duration | 41.5 ± 15.9 s |
-| Mean NREM bout duration | 62.9 ± 9.9 s |
-| Mean REM bout duration  | 76.4 ± 16.6 s |
-| Total low-conf epochs | 481 (matches Phase 4A QC) |
+**Phase 6 gate conditions confirmed:**
+- ✅ All six figure types in correct subdirectories
+- ✅ All PNG at 300 DPI with labeled axes and titles
+- ✅ Consistent colors: Wake=green, NREM=blue, REM=red
 
-**Phase 5 gate conditions confirmed:**
-- ✅ `outputs/sleep_metrics.csv` — 50 rows × 26 columns
-- ✅ All metrics from predicted labels only
-
-**Completion message posted to:** `chats/Claude-Codex-Antigravity-Human/Phase 5/Phase 5 - Active.md`
+**Completion message posted to:** `chats/Claude-Codex-Antigravity-Human/Phase 6/Phase 6 - Active.md`
 
 ---
 
@@ -86,51 +86,69 @@ venv\Scripts\python.exe AccuSleePy_Demo/scripts/05_sleep_metrics.py \
 - `AccuSleePy_Demo/outputs/sleep_metrics.csv` — 50 rows × 26 columns
   - Columns: recording_id, mouse_id, day_id, pct_wake, pct_nrem, pct_rem, wake/nrem/rem mean_bout_s/max_bout_s/bout_count, trans_<from>_to_<to> (9 cols), low_conf_count, low_conf_pct
 
+**Phase 6:**
+- `AccuSleePy_Demo/figures/hypnograms/` — 6 PNG hypnograms (Mouse01–Mouse06, Day1)
+- `AccuSleePy_Demo/figures/stage_percentages/stage_percentages.png`
+- `AccuSleePy_Demo/figures/bout_analysis/bout_duration.png`
+- `AccuSleePy_Demo/figures/validation/confusion_matrix.png`
+- `AccuSleePy_Demo/figures/validation/kappa_distribution.png`
+- `AccuSleePy_Demo/figures/transitions/transition_matrix.png`
+
 ### Files Still To Be Created (Future Phases)
 
-- `AccuSleePy_Demo/scripts/utils/plotting.py` — Phase 6
-- `AccuSleePy_Demo/scripts/06_figures.py` — **Phase 6 (next for Claude)**
-- All figure outputs in `AccuSleePy_Demo/figures/` — Phase 6
 - `AccuSleePy_Demo/README.md` — Phase 7
-- `AccuSleePy_Demo/report/report.tex` and `report.pdf` — Phase 7
+- `AccuSleePy_Demo/report/report.tex` — Phase 7
+- `AccuSleePy_Demo/report/report.pdf` — Phase 7
 
 ---
 
 ## Active Chats
 
-### `chats/Claude-Codex-Antigravity-Human/Phase 5/Phase 5 - Active.md`
+### `chats/Claude-Codex-Antigravity-Human/Phase 6/Phase 6 - Active.md`
 
-**Status:** Active. Claude posted completion message. Waiting for Codex, Antigravity, and Randy to review.
+**Status:** Active. Claude posted plan (Session 8 start) and completion message (Session 8 end). Waiting for Codex, Antigravity, and Randy to review.
 
 **Messages in order:**
-1. Randy: Phase 5 instructions (Claude does all tasks; Codex + Antigravity + Randy must approve before Phase 6)
-2. Claude (Session 7): Phase 5 plan + completion summary
+1. Randy: Phase 6 instructions (Claude does all tasks; Codex + Antigravity + Randy must approve before Phase 7)
+2. Claude (Session 8): Phase 6 plan
+3. Claude (Session 8): Phase 6 completion summary
 
-**Next action for Claude:** Read this chat at the start of Session 8. If all three have approved, begin Phase 6. If not, wait.
+**Next action for Claude:** Read this chat at the start of Session 9. If all three have approved, begin Phase 7. If not, wait or address feedback.
 
 ---
 
-## Phase 6 Preview (if approved)
+## Phase 7 Preview (if approved)
 
-**Goal:** Write `scripts/06_figures.py` and `scripts/utils/plotting.py`.
+**Goal:** Write `AccuSleePy_Demo/README.md` and compile the full LaTeX report.
 
-**Figure types required:**
-1. **Hypnograms** (`figures/hypnograms/`) — Predicted sleep stage sequence for 4–6 representative animals. x-axis = time in hours; y-axis = stage. Selection rule: choose one recording per animal (e.g., Day1), state rule in script/README.
-2. **Stage percentage plots** (`figures/stage_percentages/`) — Box or bar plots of % Wake/NREM/REM across 10 animals. Average within-mouse first (multiple recordings per mouse → one value per mouse before plotting).
-3. **Bout duration plots** (`figures/bout_analysis/`) — Box plots of mean bout duration per stage across animals. Aggregate within-mouse first.
-4. **Aggregate confusion matrix** (`figures/validation/`) — Summed across all recordings, normalized as row percentages.
-5. **Kappa distribution** (`figures/validation/`) — Box plot or histogram of per-recording kappa values.
-6. **Transition matrix heatmap** (`figures/transitions/`) — Mean state transition probability matrix across recordings (3×3 heatmap).
+**Files to create:**
+1. `AccuSleePy_Demo/README.md` — project overview, setup, run commands, expected outputs
+2. `AccuSleePy_Demo/report/report.tex` — full LaTeX source:
+   - Abstract
+   - Section 1: Data (dataset citation, specs, label distribution table)
+   - Section 2: Methods (data loading, calibration, scoring, QC, validation, metrics, software)
+   - Section 3: Results (3.1 Validation, 3.2 QC Summary, 3.3 Sleep Architecture with figures)
+   - Section 4: Limitations
+   - Section 5: References
+3. `AccuSleePy_Demo/report/report.pdf` — compiled PDF
 
-**Standards:**
-- 300+ DPI, labeled axes, clear titles
-- Consistent colors: Wake = green, NREM = blue, REM = red
-- Save as PNG
-- `utils/plotting.py` for shared plotting utilities (no copy-paste logic)
+**Key quantitative results to include in the report (from Phases 4 and 5):**
+- Kappa: 0.9490 ± 0.0148
+- Accuracy: 0.9725 ± 0.0072
+- Mean % Wake: 34.53 ± 7.76%, NREM: 54.64 ± 6.16%, REM: 10.83 ± 2.18%
+- Mean Wake bout: 41.5 ± 15.9 s, NREM: 62.9 ± 9.9 s, REM: 76.4 ± 16.6 s
+- Total low-confidence epochs: 481 (0.167% mean)
+- 0 recordings flagged in QC
 
-**Data sources for figures:**
-- `outputs/sleep_metrics.csv` — stage proportions, bout stats, transition matrices, low-conf counts
-- `outputs/validation_summary.csv` — kappa values, confusion matrix counts per recording
+**Figures to embed in report (relative paths from `report/`):**
+- `../figures/hypnograms/MouseXX_Day1_hypnogram.png` (representative selection)
+- `../figures/stage_percentages/stage_percentages.png`
+- `../figures/bout_analysis/bout_duration.png`
+- `../figures/validation/confusion_matrix.png`
+- `../figures/validation/kappa_distribution.png`
+- `../figures/transitions/transition_matrix.png`
+
+**LaTeX compilation:** Use `pdflatex` — verify it is available in the environment before writing the `.tex` file.
 
 ---
 
@@ -146,14 +164,15 @@ venv\Scripts\python.exe AccuSleePy_Demo/scripts/05_sleep_metrics.py \
 
 ---
 
-## Next Steps for Session 8
+## Next Steps for Session 9
 
-1. **Check Phase 5 chat** — read `Phase 5 - Active.md` to see if Codex, Antigravity, and Randy have all approved.
-   - If all three have approved: begin Phase 6 (Figure Generation).
+1. **Check Phase 6 chat** — read `Phase 6 - Active.md` to see if Codex, Antigravity, and Randy have all approved.
+   - If all three have approved: begin Phase 7 (Report Assembly).
    - If only some have approved or there is feedback: address it.
    - If no new messages: post a polite follow-up and wait.
-2. **If approved — Phase 6:**
-   - Write `AccuSleePy_Demo/scripts/utils/plotting.py` with shared figure utilities
-   - Write `AccuSleePy_Demo/scripts/06_figures.py` (see Phase 6 Preview above)
-   - Run the script and verify all 6 figure types are generated correctly
-   - Check gate conditions before posting completion
+2. **If approved — Phase 7:**
+   - Verify `pdflatex` is available in the environment
+   - Write `AccuSleePy_Demo/README.md`
+   - Write `AccuSleePy_Demo/report/report.tex`
+   - Compile `report.pdf` using `pdflatex`
+   - Verify all gate conditions before posting completion
