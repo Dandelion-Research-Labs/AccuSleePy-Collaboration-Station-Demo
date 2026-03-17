@@ -1,55 +1,40 @@
-# Summary of Only Necessary Context — Claude Session 5 → Session 6
+# Summary of Only Necessary Context — Claude Session 6 → Session 7
 
-_Rewritten at the end of Session 5 (2026-03-16). Read this at the start of Session 6 before doing any work._
+_Rewritten at the end of Session 6 (2026-03-16). Read this at the start of Session 7 before doing any work._
 
 ---
 
 ## Current Phase
 
-**Both Phase 4 components are complete. Waiting for Randy (and likely Antigravity) to review and explicitly approve both before Phase 5 begins.**
+**Phase 4 cross-checks are in progress. Waiting for Randy's review and approval before Phase 5 begins.**
 
-- Claude completed Component A (Quality Control) — Session 5
-- Codex completed Component B (Validation) — Session 4 (ran in parallel)
+- Claude completed Phase 4A (Quality Control) — Session 5
+- Codex completed Phase 4B (Validation) — Codex Session 4
+- Claude cross-checked Codex's Phase 4B and posted findings — **Session 6 (this session)**
+- Codex cross-checked Claude's Phase 4A and posted findings — **Codex Session 5 (parallel, same session)**
+- Randy said Gemini will also review both components after Claude and Codex post findings
 
-Both completion messages are posted in `chats/Claude-Codex-Antigravity-Human/Phase 4/Phase 4 - Active.md`.
+All findings are in `chats/Claude-Codex-Antigravity-Human/Phase 4/Phase 4 - Active.md`.
 
 ---
 
-## What Was Done in Session 5
+## What Was Done in Session 6
 
-### Phase 3 Chat Concluded
+### Phase 4B Cross-Check — Complete
 
-- Randy approved Phase 3 at the end of the previous Codex/Antigravity session.
-- This session: appended Claude's closing message, created `Phase 3 - Concluded.md`, created `Phase 3/Summary.md`, deleted `Phase 3 - Active.md`.
+Reviewed Codex's `04_validation.py`, `scripts/utils/metrics.py`, and `outputs/validation_summary.csv`.
 
-### Phase 4A: Quality Control — Complete
+**Verdict: PASS.** No defects found. Full details in the Phase 4 chat.
 
-**Files created:**
+**Key findings:**
+- All 50 recordings validated (51 lines in CSV = 1 header + 50 rows)
+- Calibration epochs correctly excluded; `build_holdout_mask` has robust duplicate/range validation
+- No hard-coded paths; `argparse` with `required=True` for `--data_dir`
+- Aggregate metrics printed: kappa 0.9490 ± 0.0148, accuracy 0.9725 ± 0.0072
+- Results consistent with published ~96.8% benchmark
+- One minor style note (non-defect): confusion_matrix built with Python for-loop vs vectorized numpy — correctness unaffected
 
-1. **`AccuSleePy_Demo/scripts/utils/metrics.py`**
-   - Shared utilities for Phase 4B (Codex) and beyond
-   - Functions: `confusion_matrix`, `cohens_kappa`, `overall_accuracy`, `per_class_metrics`, `compute_all_metrics`
-   - Import: `from utils.metrics import compute_all_metrics, confusion_matrix`
-
-2. **`AccuSleePy_Demo/scripts/03_quality_control.py`**
-   - CLI: `--predicted_labels_dir` (required), `--output_dir` (required), `--confidence_threshold` (0.8), `--wake_high_threshold` (0.80), `--rem_high_threshold` (0.25), `--nrem_low_threshold` (0.10), `--long_run_minutes` (60.0)
-   - Reads from `outputs/predicted_labels/` (skips `_calibration_indices.csv` files)
-   - Writes: per-recording low-confidence CSVs + QC_report.md
-
-3. **`AccuSleePy_Demo/QC_report.md`**
-   - 0 recordings flagged (all 50 pass stage proportion and long-run checks)
-   - 481 total low-confidence epochs across 50 recordings (range: 1–28 per recording, max 0.49%)
-
-4. **`AccuSleePy_Demo/low_confidence_epochs/`** — 50 per-recording CSVs
-   - Columns: epoch_index, predicted_label, confidence_score
-   - Empty CSVs (header only) for recordings with 0 low-confidence epochs
-
-**Run command:**
-```
-venv\Scripts\python.exe AccuSleePy_Demo/scripts/03_quality_control.py \
-  --predicted_labels_dir AccuSleePy_Demo/outputs/predicted_labels \
-  --output_dir AccuSleePy_Demo
-```
+**Message appended to chat:** `chats/Claude-Codex-Antigravity-Human/Phase 4/Phase 4 - Active.md`
 
 ---
 
@@ -74,15 +59,24 @@ Located in `AccuSleePy_Demo/outputs/predicted_labels/`:
 - 50 predicted-label files: `<MouseXX_DayX>.csv` — columns: `brain_state`, `confidence_score`; 5,760 rows each
 - 50 calibration-index files: `<MouseXX_DayX>_calibration_indices.csv` — column: `epoch_index`; 360 rows each
 
-### Phase 4A Outputs (complete)
+### Phase 4 Outputs (complete)
 
+**4A (Claude):**
 - `AccuSleePy_Demo/QC_report.md` — 0 flagged recordings; 481 total low-confidence epochs
-- `AccuSleePy_Demo/low_confidence_epochs/` — 50 per-recording CSVs
+- `AccuSleePy_Demo/low_confidence_epochs/` — 50 per-recording CSVs (columns: epoch_index, predicted_label, confidence_score)
+
+**4B (Codex):**
+- `AccuSleePy_Demo/scripts/04_validation.py`
+- `AccuSleePy_Demo/outputs/validation_summary.csv` — 50 rows; columns: recording_id, mouse_id, day_id, total_epochs, excluded_calibration_epochs, compared_epochs, kappa, accuracy, wake/nrem/rem precision/recall/f1, and 9 confusion matrix count columns
+
+**Validation results:**
+- Aggregate kappa: 0.9490 ± 0.0148
+- Aggregate accuracy: 0.9725 ± 0.0072
+- Per-class F1: Wake 0.9656, NREM 0.9762, REM 0.9752
+- Consistent with expected ~96.8% benchmark
 
 ### Files Still To Be Created (Future Phases)
 
-- `AccuSleePy_Demo/scripts/04_validation.py` — **Phase 4B (Codex's task)**
-- `AccuSleePy_Demo/outputs/validation_summary.csv` — **Phase 4B (Codex's task)**
 - `AccuSleePy_Demo/scripts/utils/plotting.py` — Phase 6
 - `AccuSleePy_Demo/scripts/05_sleep_metrics.py` — **Phase 5 (next for Claude)**
 - `AccuSleePy_Demo/outputs/sleep_metrics.csv` — Phase 5
@@ -96,16 +90,18 @@ Located in `AccuSleePy_Demo/outputs/predicted_labels/`:
 
 ### `chats/Claude-Codex-Antigravity-Human/Phase 4/Phase 4 - Active.md`
 
-**Status:** Active. Both Claude (Component A) and Codex (Component B) have posted completion messages. Waiting for Randy's review and explicit approval before Phase 5 begins.
+**Status:** Active. All completion and cross-check messages posted. Waiting for Randy's response.
 
-**Codex's Phase 4B results (from the chat):**
-- 50 recordings validated, 360 calibration epochs excluded per recording, 5,400 held-out epochs compared
-- Aggregate kappa: 0.9490 ± 0.0148
-- Aggregate accuracy: 0.9725 ± 0.0072
-- Per-class F1: Wake 0.9656, NREM 0.9762, REM 0.9752
-- Consistent with the expected ~96.8% benchmark from the AccuSleePy paper
+**Messages in the chat (in order):**
+1. Randy: Phase 4 instructions (parallel: Claude = 4A, Codex = 4B)
+2. Claude (Session 5): 4A plan
+3. Claude (Session 5): 4A complete summary
+4. Codex (Session 4): 4B complete summary
+5. Randy: Cross-check instructions (Claude checks Codex, Codex checks Claude, then Gemini reviews both)
+6. Codex (Session 5): Phase 4A cross-check findings — **PASS** (re-ran script independently, confirmed 50 recordings, 0 flagged, 481 low-conf epochs, max low-conf 28, longest run 53.9 min < 60 min threshold)
+7. Claude (Session 6): Phase 4B cross-check findings — **PASS**
 
-**Next action for Claude:** Read this chat at the start of Session 6. If Randy has reviewed and approved both components, begin Phase 5. If not, wait.
+**Next action for Claude:** Read this chat at the start of Session 7. If Randy has reviewed and approved everything (including Gemini's review), begin Phase 5. If not, wait.
 
 ---
 
@@ -132,18 +128,24 @@ cm = confusion_matrix(true_labels, pred_labels)
 - **Data path:** `C:\Datasets\AccuSleePy_Data` — pass via `--data_dir`.
 - **Model path:** `C:\Datasets\models\ssann_2(5)s.pth` — pass via `--model_path`.
 - **Label encoding:** REM=1, Wake=2, NREM=3 — confirmed.
-- **Phase gates are strict:** Do not begin the next phase until all gate conditions are met.
-- **Calibration epochs must be excluded from validation.** Phase 4B (Codex) is responsible for this, but be aware when reviewing Phase 4B outputs.
+- **Phase gates are strict:** Do not begin the next phase until all gate conditions are met and Randy has explicitly approved.
 - **File encoding:** Use `encoding="utf-8"` when writing markdown files on Windows (avoids cp1252 issues with special characters).
 
 ---
 
-## Next Steps for Session 6
+## Next Steps for Session 7
 
-1. **Check Phase 4 chat** — confirm Codex has completed Component B and Randy has reviewed and approved both components.
-2. **If approved:** Begin Phase 5 (Descriptive Sleep Metrics).
+1. **Check Phase 4 chat** — read `Phase 4 - Active.md` to see if Randy has approved Phase 5 to begin.
+   - If Randy has approved: begin Phase 5 (Descriptive Sleep Metrics).
+   - If Randy has responded with more feedback: address it.
+   - If no new message from Randy: post a polite follow-up and wait.
+2. **If approved — Phase 5:**
    - Write `AccuSleePy_Demo/scripts/05_sleep_metrics.py`
-   - Compute per recording: % Wake, % NREM, % REM; bout analysis (mean/max duration, count per stage); transition matrix; low-confidence epoch count and %
-   - Save all metrics to `AccuSleePy_Demo/outputs/sleep_metrics.csv`
-   - Gate: all metrics computed from predicted labels only (not expert labels)
-3. **If not approved:** Post a polite follow-up in the Phase 4 chat and await direction.
+   - CLI: `--predicted_labels_dir`, `--confidence_threshold` (0.8), `--output_path`
+   - Compute per recording (from predicted labels only — NOT expert labels):
+     - % Wake, % NREM, % REM
+     - Bout analysis: mean bout duration (seconds), max bout duration, count per stage (at 2.5 s/epoch)
+     - Stage transition probability matrix: for each current state, fraction of transitions to each next state
+     - Low-confidence epoch count and % (confidence ≤ 0.8, from confidence_score column)
+   - Save all metrics to `AccuSleePy_Demo/outputs/sleep_metrics.csv` with columns for: recording_id, animal_id (mouse_id), % Wake/NREM/REM, bout stats, transition probabilities, low-confidence count and %
+   - Gate check before finishing: all metrics computed from predicted labels only

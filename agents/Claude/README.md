@@ -11,7 +11,8 @@ agents/Claude/
     ├── HumanReport2.md                   ← End-of-session report from Session 2
     ├── HumanReport3.md                   ← End-of-session report from Session 3
     ├── HumanReport4.md                   ← End-of-session report from Session 4
-    └── HumanReport5.md                   ← End-of-session report from Session 5
+    ├── HumanReport5.md                   ← End-of-session report from Session 5
+    └── HumanReport6.md                   ← End-of-session report from Session 6
 ```
 
 ## File and Folder Descriptions
@@ -44,6 +45,8 @@ Authoritative guide to this workspace. Updated when folder structure changes. De
 | `AccuSleePy_Demo/scripts/01_data_inspection.py` | Claude (author) | Phase 2 dataset inspection script |
 | `AccuSleePy_Demo/scripts/02_accusleepy_scoring.py` | Claude (author) | Phase 3 scoring script |
 | `AccuSleePy_Demo/scripts/03_quality_control.py` | Claude (author) | Phase 4A QC script |
+| `AccuSleePy_Demo/scripts/04_validation.py` | Codex (author) | Phase 4B validation script |
+| `AccuSleePy_Demo/outputs/validation_summary.csv` | Codex (author) | Phase 4B per-recording validation metrics |
 | `AccuSleePy_Demo/data_guide.md` | Claude (author) | Authoritative dataset reference |
 | `AccuSleePy_Demo/outputs/predicted_labels/` | Claude (author) | Phase 3 outputs: predicted labels + calibration indices (50 + 50 CSV files) |
 | `AccuSleePy_Demo/QC_report.md` | Claude (author) | Phase 4A QC report |

@@ -97,3 +97,82 @@ Great work everyone! Claude and Codex please check each other's work next. Once 
 
 I will launch you in parallel so you will be checking each other's work at the same time. Send a message here with your findings. Once you are both done, I will launch Gemini to also check both of your work.
 
+---
+
+**Codex (Session 5):**
+
+I reviewed Claude's Phase 4A deliverables against the Phase 4 Component A requirements and the standards in `Project Details/Project Details.md`.
+
+**Files reviewed:**
+- `AccuSleePy_Demo/scripts/utils/metrics.py`
+- `AccuSleePy_Demo/scripts/03_quality_control.py`
+- `AccuSleePy_Demo/QC_report.md`
+- `AccuSleePy_Demo/low_confidence_epochs/`
+
+**Verification performed:**
+- Re-read the QC script and shared metrics module for correctness, CLI portability, and hard-coded-path violations.
+- Re-ran:
+```bash
+venv\Scripts\python.exe AccuSleePy_Demo\scripts\03_quality_control.py --predicted_labels_dir AccuSleePy_Demo\outputs\predicted_labels --output_dir AccuSleePy_Demo
+```
+- Independently checked the generated outputs against the predicted-label CSVs.
+
+**Findings:**
+- No issues found.
+- Phase 4A gate appears satisfied.
+- The script uses required CLI arguments for machine-specific paths and does not hard-code dataset locations.
+- `QC_report.md` and `low_confidence_epochs/` were generated correctly.
+- Output verification matched Claude's summary:
+  - 50 recordings processed
+  - 0 recordings flagged
+  - 50 low-confidence CSVs present
+  - 481 total low-confidence epochs
+  - independent max low-confidence count: 28 (`Mouse02_Day2`)
+  - independent longest single-stage run observed: 1293 epochs = 53.875 minutes, which stays below the 60-minute flag threshold
+
+From Codex's side, Claude's Phase 4A work passes review.
+
+---
+
+**Claude (Session 6) — Phase 4B Cross-Check:**
+
+I reviewed Codex's Component B work: `scripts/04_validation.py`, `scripts/utils/metrics.py` (also Claude's but used heavily by 4B), and `outputs/validation_summary.csv`.
+
+**Phase 4B Gate Conditions:**
+- ✅ `outputs/validation_summary.csv` complete — 50 rows (1 per recording), confirmed via line count. Columns include: kappa, accuracy, per-class precision/recall/F1 for Wake/NREM/REM, confusion matrix counts, calibration exclusion counts.
+- ✅ Aggregate kappa and accuracy printed: 0.9490 ± 0.0148 kappa, 0.9725 ± 0.0072 accuracy.
+- ✅ All 50 recordings validated without errors.
+
+**Reproducibility and Portability:**
+- ✅ No hard-coded paths anywhere. `--data_dir` is `required=True`; `--predicted_labels_dir` and `--output_path` have sensible project-relative defaults.
+- ✅ Output parent directories created automatically (`mkdir(parents=True, exist_ok=True)`).
+- ✅ `sys.path.insert` makes `utils/` imports work from any working directory without installation.
+- ✅ Script fails fast with `sys.exit(1)` and informative messages if required directories are missing.
+
+**Scientific Best Practices:**
+- ✅ Calibration epochs correctly excluded via `build_holdout_mask`, which includes validation of duplicate detection and out-of-range checks — robust.
+- ✅ Cohen's kappa is reported as primary metric alongside accuracy and per-class F1 (precision, recall) for all three stages.
+- ✅ Validation results (kappa 0.9490, accuracy 0.9725) are consistent with the published ~96.8% benchmark from the AccuSleePy paper.
+- ✅ Aggregate per-class metrics computed from the summed confusion matrix across all recordings, not just averaged per-recording metrics — this is the correct approach for pooled estimates.
+
+**Software Engineering Best Practices:**
+- ✅ Module-level and function-level docstrings with `:param`/`:return`/`:raises` notation throughout.
+- ✅ Functions are small and single-purpose: `build_holdout_mask`, `flatten_confusion_counts`, `format_stage_metrics`, `validate_recording`, `summarize_metric` each do one thing clearly.
+- ✅ Uses shared `utils/` modules — no logic copied across scripts.
+- ✅ Errors collected per recording and reported together before exit with `sys.exit(1)`.
+- ✅ Progress printed per recording with kappa, accuracy, and held-out epoch count.
+- ✅ CSV sorted by `mouse_id`, `day_id` for consistent ordering.
+
+**One minor observation (not a defect):** The `confusion_matrix` function in `metrics.py` builds the matrix element-by-element with a Python `for` loop over label pairs. For 5,400 epochs this is fast in practice. A vectorized implementation using numpy indexing would be more idiomatic, but this has zero impact on correctness or reproducibility.
+
+**Conclusion:** Phase 4B passes all gate conditions and fully meets the reproducibility, portability, scientific best practices, and software engineering best practices standards in Project Details.md. The implementation is well-structured, well-documented, and the results are validated against the published benchmark. I have no blockers or concerns. Ready for Gemini's review and subsequent approval.
+
+---
+
+**Randy:**
+
+Antigravity please check both Codex's and Claude's work. Check the work to make sure all gates are passed and that it adheres to the standards of reproducibility and portability, scientific best practices and software engineering best practices set out in Project Details.md. Let us know your findings here. When we get to your explicit approval, I will then get a chance to review the work before we move on to the next Phase.
+
+Note: I misspoke earlier when I said Gemini, I meant Antigravity. The confusion came from Antigravity actually being Gemini with a harness applied. Just thought I should clear that up.
+
+

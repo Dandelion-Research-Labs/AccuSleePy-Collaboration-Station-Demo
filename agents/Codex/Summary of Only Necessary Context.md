@@ -2,13 +2,12 @@
 
 ## Current Project State
 
-- Phase 3 is closed and concluded.
-- Phase 4 is active in `chats/Claude-Codex-Antigravity-Human/Phase 4/Phase 4 - Active.md`.
-- Randy split Phase 4 into parallel components:
-  - Claude owns Component A: quality control
-  - Codex owns Component B: validation against expert labels
-- Both Claude and Codex have now posted completion messages in the active Phase 4 transcript.
-- Randy said review instructions will be sent after both components are confirmed complete.
+- Phase 3 is complete.
+- Phase 4 remains active in `chats/Claude-Codex-Antigravity-Human/Phase 4/Phase 4 - Active.md`.
+- Both implementation components were already completed before this session:
+  - Claude completed Phase 4A (`03_quality_control.py`, `QC_report.md`, `low_confidence_epochs/`, shared `utils/metrics.py`)
+  - Codex completed Phase 4B (`04_validation.py`, `outputs/validation_summary.csv`)
+- During this session, Randy's active instruction was for Claude and Codex to review each other's Phase 4 work in parallel and report findings in the active transcript.
 
 ## What Codex Did This Session
 
@@ -16,85 +15,56 @@
   - read `Project Details/Project Details.md`
   - read `agents/Codex/Summary of Only Necessary Context.md`
   - read all Codex-relevant chat summaries and active transcripts
-- Confirmed the active assignment was direct implementation work for Phase 4 Component B, not review-only work.
-- Inspected the existing project scripts and real Phase 3 output formats before coding.
-- Implemented `AccuSleePy_Demo/scripts/04_validation.py`.
-- Ran the script successfully on all 50 recordings and saved `AccuSleePy_Demo/outputs/validation_summary.csv`.
-- Appended Codex's completion message to `chats/Claude-Codex-Antigravity-Human/Phase 4/Phase 4 - Active.md`.
-
-## Phase 4B Output Details
-
-### Script
-
-- `AccuSleePy_Demo/scripts/04_validation.py`
-- CLI:
-  - `--data_dir` required
-  - `--predicted_labels_dir` optional, default `AccuSleePy_Demo/outputs/predicted_labels`
-  - `--output_path` optional, default `AccuSleePy_Demo/outputs/validation_summary.csv`
-
-### Validation behavior
-
-- Loads expert labels from the dataset and predicted labels from Phase 3 outputs.
-- Loads the companion calibration-index CSV for each recording.
-- Excludes exactly those calibration epochs from comparison.
-- Validates length alignment before and after exclusion.
-- Computes:
-  - Cohen's kappa
-  - overall accuracy
-  - per-class precision / recall / F1
-  - per-recording confusion-matrix counts
-- Writes one row per recording to `validation_summary.csv`.
-
-### Saved output
-
-- `AccuSleePy_Demo/outputs/validation_summary.csv`
-- Columns include:
-  - recording identifiers
-  - total / excluded / compared epoch counts
-  - kappa
-  - accuracy
-  - Wake / NREM / REM precision, recall, and F1
-  - explicit confusion-matrix cell counts for each true/predicted stage pairing
-
-## Validation Results
-
-- All 50 recordings validated successfully.
-- Each recording:
-  - total epochs = 5,760
-  - excluded calibration epochs = 360
-  - held-out compared epochs = 5,400
-- Aggregate metrics printed by the script:
-  - mean kappa = `0.9490 +/- 0.0148`
-  - mean accuracy = `0.9725 +/- 0.0072`
-- Aggregate per-class metrics from the summed held-out confusion matrix:
-  - Wake: precision `0.9629`, recall `0.9682`, F1 `0.9656`
-  - NREM: precision `0.9813`, recall `0.9713`, F1 `0.9762`
-  - REM: precision `0.9548`, recall `0.9964`, F1 `0.9752`
-- These results are close to the benchmark expectation noted in `Project Details.md`.
-
-## Important Coordination Context
-
-- During this session, Claude's parallel Phase 4A work created:
+- Confirmed the current assignment was review of Claude's Phase 4A work, not new pipeline implementation.
+- Reviewed the following Phase 4A deliverables:
   - `AccuSleePy_Demo/scripts/utils/metrics.py`
   - `AccuSleePy_Demo/scripts/03_quality_control.py`
-- The human explicitly clarified that Claude's shared `metrics.py` should be reused and that this should be mentioned in the human report.
-- Codex therefore did not create a separate metrics utility and instead imported Claude's shared module in `04_validation.py`.
+  - `AccuSleePy_Demo/QC_report.md`
+  - `AccuSleePy_Demo/low_confidence_epochs/`
+- Re-ran Claude's QC script successfully on the canonical Phase 3 predicted-label outputs:
+  - `venv\Scripts\python.exe AccuSleePy_Demo\scripts\03_quality_control.py --predicted_labels_dir AccuSleePy_Demo\outputs\predicted_labels --output_dir AccuSleePy_Demo`
+- Independently verified the main QC claims directly from the generated artifacts and raw predicted-label CSVs.
+- Appended Codex's review message to `chats/Claude-Codex-Antigravity-Human/Phase 4/Phase 4 - Active.md`.
 
-## Workspace / Repo State To Remember
+## Review Outcome
 
-- `agents/Codex/README.md` now points to the active Phase 4 transcript.
-- `agents/Codex/Session Summaries/HumanReport4.md` exists.
-- The git worktree still shows user/other-agent changes outside this task, including:
-  - deleted `AccuSleePy_Demo/outputs/predicted_labels_codex_verify/` files from the old verification artifact
-  - new concluded Phase 3 chat files
-  - Claude's untracked Phase 4A files
-- Do not revert or interfere with those changes unless explicitly asked.
+- No issues were found in Claude's Phase 4A work.
+- Phase 4A appears to satisfy the Component A gate and the stated standards for:
+  - reproducibility and portability
+  - scientific best practices
+  - software engineering best practices
 
-## Likely Next Steps
+## Verification Details To Remember
 
-1. Next session, re-read project details, this continuity file, and all Codex-relevant chat summaries and active transcripts.
-2. Check `chats/Claude-Codex-Antigravity-Human/Phase 4/Phase 4 - Active.md` for Randy's review instructions.
-3. Be prepared either to:
-   - review Claude's Phase 4A outputs,
-   - respond to review of Phase 4B,
-   - or begin the next project phase if Randy opens it.
+- QC re-run completed for all 50 recordings without error.
+- Verified outputs:
+  - 50 low-confidence CSVs present in `AccuSleePy_Demo/low_confidence_epochs/`
+  - 0 recordings flagged
+  - 481 total low-confidence epochs across the dataset
+- Independent checks:
+  - max low-confidence count in one recording: `28` for `Mouse02_Day2`
+  - longest single-stage run observed: `1293` epochs = `53.875` minutes (`Mouse10_Day2`, Wake), below the 60-minute threshold
+
+## Important Existing Outputs
+
+- Codex's earlier Phase 4B output still stands:
+  - `AccuSleePy_Demo/scripts/04_validation.py`
+  - `AccuSleePy_Demo/outputs/validation_summary.csv`
+- Key held-out validation result from prior session:
+  - mean kappa = `0.9490 +/- 0.0148`
+  - mean accuracy = `0.9725 +/- 0.0072`
+
+## Workspace State
+
+- `agents/Codex/Session Summaries/HumanReport5.md` now exists.
+- `agents/Codex/README.md` has been updated to include the new report.
+- Do not revert unrelated repo changes made by the user or other agents.
+
+## Next Steps
+
+1. Next session, repeat the full startup workflow from `AgentPrompt.md`.
+2. Read the active Phase 4 transcript first to see whether Claude has posted review findings and whether Randy or Gemini has added new instructions.
+3. Be prepared for one of three likely paths:
+   - respond if Claude or Gemini found an issue in Phase 4B
+   - review or respond to any new Phase 4 coordination request
+   - begin Phase 5 if Randy advances the project
