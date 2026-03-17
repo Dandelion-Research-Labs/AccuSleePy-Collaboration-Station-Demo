@@ -14,7 +14,10 @@
       "Bash(venv/Scripts/python.exe AccuSleePy_Demo/scripts/05_sleep_metrics.py --predicted_labels_dir AccuSleePy_Demo/outputs/predicted_labels --output_path AccuSleePy_Demo/outputs/sleep_metrics.csv)",
       "Bash(venv/Scripts/python.exe -c \":*)",
       "Bash(venv/Scripts/python.exe AccuSleePy_Demo/scripts/06_figures.py --sleep_metrics_csv AccuSleePy_Demo/outputs/sleep_metrics.csv --validation_csv AccuSleePy_Demo/outputs/validation_summary.csv --predicted_labels_dir AccuSleePy_Demo/outputs/predicted_labels --output_dir AccuSleePy_Demo/figures --dpi 300)",
-      "Bash(venv/Scripts/python.exe AccuSleePy_Demo/scripts/06_figures.py --sleep_metrics_csv AccuSleePy_Demo/outputs/sleep_metrics.csv --validation_csv AccuSleePy_Demo/outputs/validation_summary.csv --predicted_labels_dir AccuSleePy_Demo/outputs/predicted_labels --output_dir AccuSleePy_Demo/figures)"
+      "Bash(venv/Scripts/python.exe AccuSleePy_Demo/scripts/06_figures.py --sleep_metrics_csv AccuSleePy_Demo/outputs/sleep_metrics.csv --validation_csv AccuSleePy_Demo/outputs/validation_summary.csv --predicted_labels_dir AccuSleePy_Demo/outputs/predicted_labels --output_dir AccuSleePy_Demo/figures)",
+      "Bash(where pdflatex:*)",
+      "Bash(venv/Scripts/python.exe --version)",
+      "Bash(pdflatex -interaction=nonstopmode report.tex)"
     ]
   }
 }

@@ -1,34 +1,41 @@
-# Summary of Only Necessary Context — Claude Session 9 → Session 10
+# Summary of Only Necessary Context — Claude Session 10 → Session 11
 
-_Rewritten at the end of Session 9 (2026-03-16). Read this at the start of Session 10 before doing any work._
+_Rewritten at the end of Session 10 (2026-03-17). Read this at the start of Session 11 before doing any work._
 
 ---
 
 ## Current Phase
 
-**Phase 6 is complete with a legend fix applied. Waiting for Randy, Codex (re-confirm), and Antigravity to review the updated hypnograms and approve before Phase 7 begins.**
+**Phase 7 is complete. The full AccuSleePy Demo pipeline (Phases 1–7) is done. Awaiting Randy's instructions on the Phase 7 review process.**
 
-- Claude completed Phase 6 (Figure Generation) — Session 8
-- Randy found a legend overlap issue in the hypnograms — Session 9
-- Claude fixed the legend layout and regenerated all figures — Session 9
-- Codex approved in Session 7 (before the fix; a cosmetic re-confirmation may or may not be needed)
-- Antigravity has not yet reviewed Phase 6
-- Randy has not yet given final approval
+- Claude completed Phase 7 (Report Assembly) — Session 10
+- Phase 7 completion message posted in `chats/Claude-Codex-Antigravity-Human/Phase 7/Phase 7 - Active.md`
+- Randy has not yet responded with review instructions
 
 ---
 
-## What Was Done in Session 9
+## What Was Done in Session 10
 
-### Hypnogram Legend Fix
+### Phase 6 Chat Concluded
 
-Randy reported that hypnogram legends were overlapping with the hypnogram data. Fix applied to `AccuSleePy_Demo/scripts/06_figures.py`, function `plot_hypnogram`:
+Randy had requested this at the end of Session 9. Completed:
+- `Phase 6 - Active.md` renamed to `Phase 6 - Concluded.md` (with Claude's closing acknowledgment appended)
+- `Summary.md` created in `chats/Claude-Codex-Antigravity-Human/Phase 6/`
+- `Phase 6 - Active.md` deleted
 
-1. `ax.set_title(...)` — added `loc="left"` to left-align the title, freeing the upper-right area.
-2. `ax.legend(...)` — added `ncol=3` so all three stage entries (Wake, NREM, REM) appear in a single horizontal row at the upper right, to the right of the title.
+### Phase 7 Complete
 
-`06_figures.py` was re-run; all 11 PNG figures regenerated at 300 DPI without errors.
+Three files created:
 
-Response posted to `chats/Claude-Codex-Antigravity-Human/Phase 6/Phase 6 - Active.md`.
+1. **`AccuSleePy_Demo/README.md`** — project overview, environment setup, run commands for all 6 scripts with expected outputs, key results table, citation section
+
+2. **`AccuSleePy_Demo/report/report.tex`** — full LaTeX report:
+   - Abstract, Data, Methods, Results (3.1 Validation, 3.2 QC, 3.3 Sleep Architecture), Limitations, References
+   - All figures embedded with relative paths (`../figures/...`)
+   - All quantitative results from actual CSV outputs embedded
+   - Written to scientific publication style (passive voice, precise)
+
+3. **`AccuSleePy_Demo/report/report.pdf`** — 11 pages, compiled with MiKTeX `pdflatex` (3 passes), no LaTeX errors
 
 ---
 
@@ -47,7 +54,7 @@ Response posted to `chats/Claude-Codex-Antigravity-Human/Phase 6/Phase 6 - Activ
 | Label encoding | REM=1, Wake=2, NREM=3 |
 | Anomalies | None |
 
-### Phase Outputs (complete)
+### All Phase Outputs (complete)
 
 **Phase 3:**
 - `AccuSleePy_Demo/outputs/predicted_labels/` — 50 predicted-label CSVs + 50 calibration-index CSVs
@@ -59,74 +66,58 @@ Response posted to `chats/Claude-Codex-Antigravity-Human/Phase 6/Phase 6 - Activ
 
 **Phase 5:**
 - `AccuSleePy_Demo/outputs/sleep_metrics.csv` — 50 rows × 26 columns
-  - Columns: recording_id, mouse_id, day_id, pct_wake, pct_nrem, pct_rem, wake/nrem/rem mean_bout_s/max_bout_s/bout_count, trans_<from>_to_<to> (9 cols), low_conf_count, low_conf_pct
 
 **Phase 6:**
-- `AccuSleePy_Demo/figures/hypnograms/` — 6 PNG hypnograms (Mouse01–Mouse06, Day1) — **legend fixed in Session 9**
+- `AccuSleePy_Demo/figures/hypnograms/` — 6 PNG hypnograms (Mouse01–Mouse06, Day1)
 - `AccuSleePy_Demo/figures/stage_percentages/stage_percentages.png`
 - `AccuSleePy_Demo/figures/bout_analysis/bout_duration.png`
 - `AccuSleePy_Demo/figures/validation/confusion_matrix.png`
 - `AccuSleePy_Demo/figures/validation/kappa_distribution.png`
 - `AccuSleePy_Demo/figures/transitions/transition_matrix.png`
 
-### Files Still To Be Created (Future Phases)
-
-- `AccuSleePy_Demo/README.md` — Phase 7
-- `AccuSleePy_Demo/report/report.tex` — Phase 7
-- `AccuSleePy_Demo/report/report.pdf` — Phase 7
+**Phase 7:**
+- `AccuSleePy_Demo/README.md`
+- `AccuSleePy_Demo/report/report.tex`
+- `AccuSleePy_Demo/report/report.pdf` — 11 pages, no errors
 
 ---
 
 ## Active Chats
 
-### `chats/Claude-Codex-Antigravity-Human/Phase 6/Phase 6 - Active.md`
+### `chats/Claude-Codex-Antigravity-Human/Phase 7/Phase 7 - Active.md`
 
-**Status:** Active. Awaiting review of the legend-fixed hypnograms from Randy, Codex, and Antigravity.
+**Status:** Active. Claude has posted plan and completion messages. Awaiting Randy's review instructions.
 
 **Messages in order:**
-1. Randy: Phase 6 instructions (Claude does all tasks; Codex + Antigravity + Randy must approve before Phase 7)
-2. Claude (Session 8): Phase 6 plan
-3. Claude (Session 8): Phase 6 completion summary
-4. Codex (Session 7): Codex review — approved (before legend fix)
-5. Randy: Found legend overlap issue; requested fix
-6. Claude (Session 9): Fix applied and figures regenerated — requesting final approval
+1. Randy: Start Phase 7; Claude completes tasks; review process TBD
+2. Claude (Session 10): Plan message
+3. Claude (Session 10): Completion message (all gates verified)
 
-**Next action for Claude:** Read this chat at the start of Session 10. If all three have approved (including re-confirmation after legend fix), begin Phase 7. If not, address any remaining feedback.
+**Next action for Claude:** Read this chat at the start of Session 11. If Randy has posted review instructions, follow them. If other agents have been asked to review, wait for their messages and respond to any feedback. If Randy has approved, the project is complete.
 
 ---
 
-## Phase 7 Preview (if approved)
+## Key Quantitative Results (for reference)
 
-**Goal:** Write `AccuSleePy_Demo/README.md` and compile the full LaTeX report.
-
-**Files to create:**
-1. `AccuSleePy_Demo/README.md` — project overview, setup, run commands, expected outputs
-2. `AccuSleePy_Demo/report/report.tex` — full LaTeX source:
-   - Abstract
-   - Section 1: Data (dataset citation, specs, label distribution table)
-   - Section 2: Methods (data loading, calibration, scoring, QC, validation, metrics, software)
-   - Section 3: Results (3.1 Validation, 3.2 QC Summary, 3.3 Sleep Architecture with figures)
-   - Section 4: Limitations
-   - Section 5: References
-3. `AccuSleePy_Demo/report/report.pdf` — compiled PDF
-
-**Key quantitative results to include in the report (from Phases 4 and 5):**
-- Kappa: 0.9490 ± 0.0148
-- Accuracy: 0.9725 ± 0.0072
-- Mean % Wake: 34.53 ± 7.76%, NREM: 54.64 ± 6.16%, REM: 10.83 ± 2.18%
-- Mean Wake bout: 41.5 ± 15.9 s, NREM: 62.9 ± 9.9 s, REM: 76.4 ± 16.6 s
-- Total low-confidence epochs: 481 (0.167% mean)
-- 0 recordings flagged in QC
-
-**Figures to embed in report (relative paths from `report/`):**
-- `../figures/hypnograms/MouseXX_Day1_hypnogram.png` (representative selection)
-- `../figures/stage_percentages/stage_percentages.png`
-- `../figures/bout_analysis/bout_duration.png`
-- `../figures/validation/confusion_matrix.png`
-- `../figures/validation/kappa_distribution.png`
-- `../figures/transitions/transition_matrix.png`
-
-**LaTeX compilation:** Use `pdflatex` — verify it is available in the environment before writing the `.tex` file.
+| Metric | Value |
+|---|---|
+| Kappa | 0.9490 ± 0.0148 |
+| Accuracy | 97.25 ± 0.72% |
+| Wake F1 | 0.9623 ± 0.0174 |
+| NREM F1 | 0.9763 ± 0.0050 |
+| REM F1 | 0.9754 ± 0.0093 |
+| Wake precision / recall | 95.90% / 96.60% |
+| NREM precision / recall | 98.12% / 97.17% |
+| REM precision / recall | 95.54% / 99.64% |
+| Mean % Wake | 34.53 ± 7.76% |
+| Mean % NREM | 54.64 ± 6.16% |
+| Mean % REM | 10.83 ± 2.18% |
+| Mean Wake bout | 41.5 ± 15.9 s |
+| Mean NREM bout | 62.9 ± 9.9 s |
+| Mean REM bout | 76.4 ± 16.6 s |
+| Total low-confidence epochs | 481 (mean 0.167%) |
+| Recordings flagged in QC | 0 / 50 |
+| Expert label distribution | REM 10.46%, Wake 34.37%, NREM 55.17% |
 
 ---
 
@@ -137,20 +128,15 @@ Response posted to `chats/Claude-Codex-Antigravity-Human/Phase 6/Phase 6 - Activ
 - **Data path:** `C:\Datasets\AccuSleePy_Data` — pass via `--data_dir`.
 - **Model path:** `C:\Datasets\models\ssann_2(5)s.pth` — pass via `--model_path`.
 - **Label encoding:** REM=1, Wake=2, NREM=3 — confirmed.
-- **Phase gates are strict:** Do not begin the next phase until all gate conditions are met and Randy has explicitly approved.
-- **File encoding:** Use `encoding="utf-8"` when writing markdown files on Windows (avoids cp1252 issues with special characters).
+- **Phase gates are strict:** Do not begin any new work until Randy has given explicit instructions.
+- **File encoding:** Use `encoding="utf-8"` when writing markdown files on Windows.
 
 ---
 
-## Next Steps for Session 10
+## Next Steps for Session 11
 
-1. **Check Phase 6 chat** — read `Phase 6 - Active.md` to see if Randy, Codex, and Antigravity have all approved the updated hypnograms.
-   - If all three have approved: begin Phase 7 (Report Assembly).
-   - If there is further feedback: address it.
-   - If no new messages: post a polite follow-up and wait.
-2. **If approved — Phase 7:**
-   - Verify `pdflatex` is available in the environment
-   - Write `AccuSleePy_Demo/README.md`
-   - Write `AccuSleePy_Demo/report/report.tex`
-   - Compile `report.pdf` using `pdflatex`
-   - Verify all gate conditions before posting completion
+1. **Check Phase 7 chat** — read `Phase 7 - Active.md` to see Randy's review instructions.
+   - If Randy has assigned reviewers: wait for their messages and respond to any feedback.
+   - If Randy has approved: the project is complete; consider whether any final wrap-up is needed.
+   - If no new messages: post a polite follow-up if appropriate.
+2. **Address any feedback** from reviewers on `README.md` or `report.pdf`.
