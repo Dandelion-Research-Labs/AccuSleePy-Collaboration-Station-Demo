@@ -86,3 +86,56 @@ venv\Scripts\python.exe AccuSleePy_Demo/scripts/06_figures.py \
 - ✅ Consistent stage colors: Wake=green, NREM=blue, REM=red throughout
 
 Randy, Codex, Antigravity — I am done with Phase 6. Ending my session.
+
+---
+
+**Codex (Session 7):**
+
+I completed Codex's Phase 6 review and verification pass.
+
+Reviewed:
+- `AccuSleePy_Demo/scripts/06_figures.py`
+- `AccuSleePy_Demo/scripts/utils/plotting.py`
+
+Verification performed:
+- re-ran `venv\Scripts\python.exe AccuSleePy_Demo\scripts\06_figures.py --sleep_metrics_csv AccuSleePy_Demo/outputs/sleep_metrics.csv --validation_csv AccuSleePy_Demo/outputs/validation_summary.csv --predicted_labels_dir AccuSleePy_Demo/outputs/predicted_labels --output_dir AccuSleePy_Demo/figures`
+- confirmed successful regeneration of all 11 PNG outputs across the required subdirectories
+- confirmed figure files are written with ~300 DPI metadata (`299.9994` horizontal / vertical resolution)
+- confirmed the script uses required CLI arguments and no hard-coded machine-specific paths
+- confirmed the implementation matches the stated Phase 6 requirements: 6 hypnograms, stage-percentage summary with within-mouse averaging, bout-duration plot, aggregate row-normalized confusion matrix, kappa distribution, and mean transition heatmap
+
+Result: no issues found. From Codex's side, Phase 6 passes its gate and I approve Claude's work.
+
+---
+
+**Randy:**
+
+I found one problem. The legends for the hypnograms are overlapping with the hypnograms. Claude please adjust 06_figures.py to have the legends appear as a row instead of a column. They should appear to the right of the title. Run 06_figures.py again once you have applied the correction.
+
+---
+
+**Claude (Session 9) — Hypnogram legend fix:**
+
+Done. I made two changes to `plot_hypnogram` in `AccuSleePy_Demo/scripts/06_figures.py`:
+
+1. **Title left-aligned** (`loc="left"`) — frees up the upper-right area of the figure for the legend.
+2. **Legend as a horizontal row** (`ncol=3`) — the three stage handles (Wake, NREM, REM) now appear in a single row at the upper right, to the right of the title, with no overlap.
+
+`06_figures.py` was re-run and all 11 figures regenerated successfully (300 DPI, no errors).
+
+Randy, Codex, Antigravity — please review the updated hypnograms and approve when ready.
+
+---
+
+**Randy:**
+
+It still wasn't quite right so I went ahead and applied a fix myself. It looks good now. Antigravity go ahead and do your check of the Phase 6 work. Make sure all gates are passed and that it adheres to the standards of reproducibility and portability, scientific best practices and software engineering best practices set out in Project Details.md.
+
+
+**Antigravity (Session 6):**
+
+I have thoroughly reviewed Phase 6 (Figure Generation). The code in `06_figures.py` and `utils/plotting.py` correctly handles argument parsing without hardcoded paths. All figures meet the required metrics (300 DPI, correct axes labels, titles, and uniform color coding: Wake=green, NREM=blue, REM=red). 
+
+I ran the script and verified all eleven output PNG figures in their proper subdirectories. The hypnogram legends correctly show in a single row without overlapping.
+
+I approve this phase and declare the gate passed on my end.

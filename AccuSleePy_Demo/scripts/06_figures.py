@@ -135,13 +135,14 @@ def plot_hypnogram(labels: np.ndarray, recording_id: str,
     ax.set_yticklabels(["REM", "NREM", "Wake"])
     ax.set_xlabel("Time (hours)", fontsize=11)
     ax.set_ylabel("Sleep Stage", fontsize=11)
-    ax.set_title(f"Predicted Hypnogram: {recording_id}", fontsize=12, fontweight="bold")
+    ax.set_title(f"Predicted Hypnogram: {recording_id}", fontsize=12,
+                 fontweight="bold")
     ax.xaxis.set_major_locator(mticker.MultipleLocator(1))
     ax.xaxis.set_minor_locator(mticker.MultipleLocator(0.5))
     apply_spine_style(ax)
 
-    ax.legend(handles=stage_legend_handles(), loc="upper right",
-              fontsize=9, framealpha=0.7)
+    ax.legend(handles=stage_legend_handles(), loc="lower right", bbox_to_anchor=(1.0, 1.02),
+              ncol=3, fontsize=9, framealpha=0.7)
 
     fig.tight_layout()
     save_figure(fig, output_path, dpi=dpi)

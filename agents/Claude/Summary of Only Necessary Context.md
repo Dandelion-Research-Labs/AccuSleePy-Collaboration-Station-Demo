@@ -1,59 +1,34 @@
-# Summary of Only Necessary Context — Claude Session 8 → Session 9
+# Summary of Only Necessary Context — Claude Session 9 → Session 10
 
-_Rewritten at the end of Session 8 (2026-03-16). Read this at the start of Session 9 before doing any work._
+_Rewritten at the end of Session 9 (2026-03-16). Read this at the start of Session 10 before doing any work._
 
 ---
 
 ## Current Phase
 
-**Phase 6 is complete. Waiting for Codex, Antigravity, and Randy to review and approve before Phase 7 begins.**
+**Phase 6 is complete with a legend fix applied. Waiting for Randy, Codex (re-confirm), and Antigravity to review the updated hypnograms and approve before Phase 7 begins.**
 
-- Claude completed Phase 6 (Figure Generation) — **Session 8 (this session)**
-- Codex and Antigravity will check the work and post findings in the Phase 6 chat
-- Randy must give explicit approval before Phase 7 begins
+- Claude completed Phase 6 (Figure Generation) — Session 8
+- Randy found a legend overlap issue in the hypnograms — Session 9
+- Claude fixed the legend layout and regenerated all figures — Session 9
+- Codex approved in Session 7 (before the fix; a cosmetic re-confirmation may or may not be needed)
+- Antigravity has not yet reviewed Phase 6
+- Randy has not yet given final approval
 
 ---
 
-## What Was Done in Session 8
+## What Was Done in Session 9
 
-### Phase 5 Cleanup — Complete
+### Hypnogram Legend Fix
 
-- Renamed `chats/Claude-Codex-Antigravity-Human/Phase 5/Phase 5 - Active.md` → `Phase 5 - Concluded.md`
-- Created `chats/Claude-Codex-Antigravity-Human/Phase 5/Summary.md`
+Randy reported that hypnogram legends were overlapping with the hypnogram data. Fix applied to `AccuSleePy_Demo/scripts/06_figures.py`, function `plot_hypnogram`:
 
-### Phase 6 — Figure Generation — Complete
+1. `ax.set_title(...)` — added `loc="left"` to left-align the title, freeing the upper-right area.
+2. `ax.legend(...)` — added `ncol=3` so all three stage entries (Wake, NREM, REM) appear in a single horizontal row at the upper right, to the right of the title.
 
-**Files written:**
+`06_figures.py` was re-run; all 11 PNG figures regenerated at 300 DPI without errors.
 
-- `AccuSleePy_Demo/scripts/utils/plotting.py` — shared plotting constants and helpers
-- `AccuSleePy_Demo/scripts/06_figures.py` — all six figure types
-
-**Run command:**
-```
-venv\Scripts\python.exe AccuSleePy_Demo/scripts/06_figures.py \
-  --sleep_metrics_csv AccuSleePy_Demo/outputs/sleep_metrics.csv \
-  --validation_csv AccuSleePy_Demo/outputs/validation_summary.csv \
-  --predicted_labels_dir AccuSleePy_Demo/outputs/predicted_labels \
-  --output_dir AccuSleePy_Demo/figures
-```
-
-**Figures produced (11 PNG files, 300 DPI):**
-
-| Figure | Path | Notes |
-|--------|------|-------|
-| Hypnograms (×6) | `figures/hypnograms/MouseXX_Day1_hypnogram.png` | Mouse01–Mouse06, Day1 |
-| Stage percentages | `figures/stage_percentages/stage_percentages.png` | Bar chart, mean ± SEM, individual mouse points |
-| Bout duration | `figures/bout_analysis/bout_duration.png` | Grouped box plots, individual mouse points |
-| Confusion matrix | `figures/validation/confusion_matrix.png` | 3×3 heatmap, row-normalized % |
-| Kappa distribution | `figures/validation/kappa_distribution.png` | Box plot with individual recording points |
-| Transition heatmap | `figures/transitions/transition_matrix.png` | Mean 3×3 probabilities |
-
-**Phase 6 gate conditions confirmed:**
-- ✅ All six figure types in correct subdirectories
-- ✅ All PNG at 300 DPI with labeled axes and titles
-- ✅ Consistent colors: Wake=green, NREM=blue, REM=red
-
-**Completion message posted to:** `chats/Claude-Codex-Antigravity-Human/Phase 6/Phase 6 - Active.md`
+Response posted to `chats/Claude-Codex-Antigravity-Human/Phase 6/Phase 6 - Active.md`.
 
 ---
 
@@ -87,7 +62,7 @@ venv\Scripts\python.exe AccuSleePy_Demo/scripts/06_figures.py \
   - Columns: recording_id, mouse_id, day_id, pct_wake, pct_nrem, pct_rem, wake/nrem/rem mean_bout_s/max_bout_s/bout_count, trans_<from>_to_<to> (9 cols), low_conf_count, low_conf_pct
 
 **Phase 6:**
-- `AccuSleePy_Demo/figures/hypnograms/` — 6 PNG hypnograms (Mouse01–Mouse06, Day1)
+- `AccuSleePy_Demo/figures/hypnograms/` — 6 PNG hypnograms (Mouse01–Mouse06, Day1) — **legend fixed in Session 9**
 - `AccuSleePy_Demo/figures/stage_percentages/stage_percentages.png`
 - `AccuSleePy_Demo/figures/bout_analysis/bout_duration.png`
 - `AccuSleePy_Demo/figures/validation/confusion_matrix.png`
@@ -106,14 +81,17 @@ venv\Scripts\python.exe AccuSleePy_Demo/scripts/06_figures.py \
 
 ### `chats/Claude-Codex-Antigravity-Human/Phase 6/Phase 6 - Active.md`
 
-**Status:** Active. Claude posted plan (Session 8 start) and completion message (Session 8 end). Waiting for Codex, Antigravity, and Randy to review.
+**Status:** Active. Awaiting review of the legend-fixed hypnograms from Randy, Codex, and Antigravity.
 
 **Messages in order:**
 1. Randy: Phase 6 instructions (Claude does all tasks; Codex + Antigravity + Randy must approve before Phase 7)
 2. Claude (Session 8): Phase 6 plan
 3. Claude (Session 8): Phase 6 completion summary
+4. Codex (Session 7): Codex review — approved (before legend fix)
+5. Randy: Found legend overlap issue; requested fix
+6. Claude (Session 9): Fix applied and figures regenerated — requesting final approval
 
-**Next action for Claude:** Read this chat at the start of Session 9. If all three have approved, begin Phase 7. If not, wait or address feedback.
+**Next action for Claude:** Read this chat at the start of Session 10. If all three have approved (including re-confirmation after legend fix), begin Phase 7. If not, address any remaining feedback.
 
 ---
 
@@ -164,11 +142,11 @@ venv\Scripts\python.exe AccuSleePy_Demo/scripts/06_figures.py \
 
 ---
 
-## Next Steps for Session 9
+## Next Steps for Session 10
 
-1. **Check Phase 6 chat** — read `Phase 6 - Active.md` to see if Codex, Antigravity, and Randy have all approved.
+1. **Check Phase 6 chat** — read `Phase 6 - Active.md` to see if Randy, Codex, and Antigravity have all approved the updated hypnograms.
    - If all three have approved: begin Phase 7 (Report Assembly).
-   - If only some have approved or there is feedback: address it.
+   - If there is further feedback: address it.
    - If no new messages: post a polite follow-up and wait.
 2. **If approved — Phase 7:**
    - Verify `pdflatex` is available in the environment
