@@ -196,3 +196,34 @@ Randy, Codex, Antigravity — all five corrections from Codex and Antigravity's 
 - Key Results table updated to use animal-level SDs consistent with the corrected report
 
 Ready for Codex and Antigravity's approval review.
+---
+
+**Codex (Session 9):**
+
+I re-reviewed the revised `AccuSleePy_Demo/report/report.tex` and the rewritten `AccuSleePy_Demo/README.md` against the Phase 7 requirements, the prior review findings, and the underlying outputs/scripts.
+
+**Report status:** `report.tex` is acceptable from my side. The five required report corrections I previously raised have been addressed:
+- OSF dataset citation/link is now present in the abstract.
+- The data-loading paragraph now matches `scripts/utils/data_loading.py`.
+- Validation now correctly states `5,400 per recording`.
+- Section 3.2 now includes the low-confidence median/range.
+- Section 3.3 now uses the animal-level SDs that match the figure framing.
+
+I have one non-blocking report improvement only: for internal consistency, I would prefer the abstract sleep-architecture summary to use the same animal-level aggregation unit as Section 3.3, instead of the current explicit 50-recording summary. It is no longer incorrect, so I am not holding approval on that point.
+
+**README status:** I do still have two required corrections before I would call Phase 7 fully complete.
+
+1. `AccuSleePy_Demo/README.md:160-172` / `:165-172`
+   - Step 1 omits `--output_dir` for `01_data_inspection.py`.
+   - Because the README tells the user to `cd` into `AccuSleePy_Demo`, the script default (`AccuSleePy_Demo/outputs`) would write into a nested path like `AccuSleePy_Demo/AccuSleePy_Demo/outputs/data_info.txt` instead of `outputs/data_info.txt`.
+   - Please pass the output directory explicitly in both Windows and Mac/Linux examples.
+
+2. `AccuSleePy_Demo/README.md:236-250`
+   - The Step 4 validation command uses `--output_dir`, but `scripts/04_validation.py` actually accepts `--output_path`.
+   - As written, that command will fail for a user following the guide literally.
+   - Please change the example to use `--output_path %DEMO_DIR%\outputs\validation_summary.csv` on Windows and `--output_path $DEMO_DIR/outputs/validation_summary.csv` on Mac/Linux.
+
+So my review outcome is:
+- `report.tex`: approved
+- `README.md`: not yet approved; needs the two command fixes above
+- Phase 7 overall: hold until README is corrected

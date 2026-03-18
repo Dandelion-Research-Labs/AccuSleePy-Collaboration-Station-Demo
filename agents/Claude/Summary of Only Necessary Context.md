@@ -1,41 +1,41 @@
-# Summary of Only Necessary Context — Claude Session 10 → Session 11
+# Summary of Only Necessary Context — Claude Session 11 → Session 12
 
-_Rewritten at the end of Session 10 (2026-03-17). Read this at the start of Session 11 before doing any work._
+_Rewritten at the end of Session 11 (2026-03-17). Read this at the start of Session 12 before doing any work._
 
 ---
 
 ## Current Phase
 
-**Phase 7 is complete. The full AccuSleePy Demo pipeline (Phases 1–7) is done. Awaiting Randy's instructions on the Phase 7 review process.**
+**Phase 7 is in review. All review corrections have been applied. Awaiting Codex and Antigravity approval.**
 
-- Claude completed Phase 7 (Report Assembly) — Session 10
-- Phase 7 completion message posted in `chats/Claude-Codex-Antigravity-Human/Phase 7/Phase 7 - Active.md`
-- Randy has not yet responded with review instructions
+- Claude applied all peer review feedback (Sessions 11) to `report.tex` and rewrote `README.md`
+- A completion message has been posted in `chats/Claude-Codex-Antigravity-Human/Phase 7/Phase 7 - Active.md`
+- Codex and Antigravity have not yet done their approval review of the corrected report
 
 ---
 
-## What Was Done in Session 10
+## What Was Done in Session 11
 
-### Phase 6 Chat Concluded
+### `report.tex` corrections applied (6 total):
 
-Randy had requested this at the end of Session 9. Completed:
-- `Phase 6 - Active.md` renamed to `Phase 6 - Concluded.md` (with Claude's closing acknowledgment appended)
-- `Summary.md` created in `chats/Claude-Codex-Antigravity-Human/Phase 6/`
-- `Phase 6 - Active.md` deleted
+1. **Aggregation mismatch fixed** — Section 3.3.1 and 3.3.2 SDs corrected to animal-level (n=10):
+   - Stage percentages: Wake ±5.16%, NREM ±4.00%, REM ±1.37%
+   - Bout durations: Wake ±10.4 s, NREM ±7.0 s, REM ±11.1 s
+2. **Low-confidence distribution added** — Section 3.2 now includes median 8 epochs (range: 1–28)
+3. **Held-out epoch count made exact** — "5,400 per recording on average" → "5,400 per recording"
+4. **OSF citation added to abstract** — `\citep{BargerOSF2025}` and `\url{https://osf.io/py5eb/}`
+5. **Data Loading rewritten** — Now describes `scripts/utils/data_loading.py` wrapping `accusleepy.fileio.load_recording` / `load_labels`
+6. **QC observed max/min added** — Max Wake 53.5%, max REM 15.3%, min NREM 38.2% added to Section 3.2
 
-### Phase 7 Complete
+### `README.md` rewritten:
+- Generic example paths (no local paths)
+- Non-technical audience: explained terminal, virtual environment, activation
+- Convenience variables section (`set` for Windows, `export` for Mac/Linux)
+- All script commands shown for both Windows and Mac/Linux
+- Key Results table updated with animal-level SDs
 
-Three files created:
-
-1. **`AccuSleePy_Demo/README.md`** — project overview, environment setup, run commands for all 6 scripts with expected outputs, key results table, citation section
-
-2. **`AccuSleePy_Demo/report/report.tex`** — full LaTeX report:
-   - Abstract, Data, Methods, Results (3.1 Validation, 3.2 QC, 3.3 Sleep Architecture), Limitations, References
-   - All figures embedded with relative paths (`../figures/...`)
-   - All quantitative results from actual CSV outputs embedded
-   - Written to scientific publication style (passive voice, precise)
-
-3. **`AccuSleePy_Demo/report/report.pdf`** — 11 pages, compiled with MiKTeX `pdflatex` (3 passes), no LaTeX errors
+### PDF recompiled:
+- 12 pages, no LaTeX errors (up from 11 pages in Session 10 due to expanded content)
 
 ---
 
@@ -75,10 +75,10 @@ Three files created:
 - `AccuSleePy_Demo/figures/validation/kappa_distribution.png`
 - `AccuSleePy_Demo/figures/transitions/transition_matrix.png`
 
-**Phase 7:**
-- `AccuSleePy_Demo/README.md`
-- `AccuSleePy_Demo/report/report.tex`
-- `AccuSleePy_Demo/report/report.pdf` — 11 pages, no errors
+**Phase 7 (current):**
+- `AccuSleePy_Demo/README.md` — rewritten for non-technical users, generic paths, Windows+Mac
+- `AccuSleePy_Demo/report/report.tex` — all peer review corrections applied
+- `AccuSleePy_Demo/report/report.pdf` — 12 pages, no errors
 
 ---
 
@@ -86,14 +86,12 @@ Three files created:
 
 ### `chats/Claude-Codex-Antigravity-Human/Phase 7/Phase 7 - Active.md`
 
-**Status:** Active. Claude has posted plan and completion messages. Awaiting Randy's review instructions.
+**Status:** Active. Claude has posted corrections-applied message. Awaiting Codex and Antigravity approval review.
 
-**Messages in order:**
-1. Randy: Start Phase 7; Claude completes tasks; review process TBD
-2. Claude (Session 10): Plan message
-3. Claude (Session 10): Completion message (all gates verified)
-
-**Next action for Claude:** Read this chat at the start of Session 11. If Randy has posted review instructions, follow them. If other agents have been asked to review, wait for their messages and respond to any feedback. If Randy has approved, the project is complete.
+**Next action for Claude:** At the start of Session 12:
+1. Read Phase 7 - Active.md
+2. If Codex and/or Antigravity have posted approval or further feedback, respond accordingly
+3. If all reviewers approve, the project may be complete — await Randy's confirmation
 
 ---
 
@@ -109,14 +107,17 @@ Three files created:
 | Wake precision / recall | 95.90% / 96.60% |
 | NREM precision / recall | 98.12% / 97.17% |
 | REM precision / recall | 95.54% / 99.64% |
-| Mean % Wake | 34.53 ± 7.76% |
-| Mean % NREM | 54.64 ± 6.16% |
-| Mean % REM | 10.83 ± 2.18% |
-| Mean Wake bout | 41.5 ± 15.9 s |
-| Mean NREM bout | 62.9 ± 9.9 s |
-| Mean REM bout | 76.4 ± 16.6 s |
-| Total low-confidence epochs | 481 (mean 0.167%) |
+| Mean % Wake | 34.53 ± 5.16% (animal-level, n=10) |
+| Mean % NREM | 54.64 ± 4.00% (animal-level, n=10) |
+| Mean % REM | 10.83 ± 1.37% (animal-level, n=10) |
+| Mean Wake bout | 41.5 ± 10.4 s (animal-level) |
+| Mean NREM bout | 62.9 ± 7.0 s (animal-level) |
+| Mean REM bout | 76.4 ± 11.1 s (animal-level) |
+| Total low-confidence epochs | 481 (mean 0.167%); median 8/recording, range 1–28 |
 | Recordings flagged in QC | 0 / 50 |
+| Max Wake observed | 53.5% |
+| Max REM observed | 15.3% |
+| Min NREM observed | 38.2% |
 | Expert label distribution | REM 10.46%, Wake 34.37%, NREM 55.17% |
 
 ---
@@ -130,13 +131,4 @@ Three files created:
 - **Label encoding:** REM=1, Wake=2, NREM=3 — confirmed.
 - **Phase gates are strict:** Do not begin any new work until Randy has given explicit instructions.
 - **File encoding:** Use `encoding="utf-8"` when writing markdown files on Windows.
-
----
-
-## Next Steps for Session 11
-
-1. **Check Phase 7 chat** — read `Phase 7 - Active.md` to see Randy's review instructions.
-   - If Randy has assigned reviewers: wait for their messages and respond to any feedback.
-   - If Randy has approved: the project is complete; consider whether any final wrap-up is needed.
-   - If no new messages: post a polite follow-up if appropriate.
-2. **Address any feedback** from reviewers on `README.md` or `report.pdf`.
+- **SDs in report.tex:** Animal-level (n=10) SDs are used in Section 3.3 where text says "across 10 animals". Abstract uses recording-level (n=50) SDs — this is intentional and consistent.
