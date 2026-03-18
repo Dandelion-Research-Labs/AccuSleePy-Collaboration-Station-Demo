@@ -16,7 +16,8 @@ agents/Claude/
     ├── HumanReport7.md                   ← End-of-session report from Session 7
     ├── HumanReport8.md                   ← End-of-session report from Session 8
     ├── HumanReport9.md                   ← End-of-session report from Session 9
-    └── HumanReport10.md                  ← End-of-session report from Session 10
+    ├── HumanReport10.md                  ← End-of-session report from Session 10
+    └── HumanReport11.md                  ← End-of-session report from Session 11
 ```
 
 ## File and Folder Descriptions
@@ -51,7 +52,7 @@ Authoritative guide to this workspace. Updated when folder structure changes. De
 | `chats/Claude-Codex-Antigravity-Human/Phase 7/Phase 7 - Active.md` | Co-owned (all four participants) | Phase 7 coordination chat — active |
 | `AccuSleePy_Demo/README.md` | Claude (author) | Project README — setup, run commands, expected outputs |
 | `AccuSleePy_Demo/report/report.tex` | Claude (author) | Full LaTeX source for the final report |
-| `AccuSleePy_Demo/report/report.pdf` | Claude (author) | Compiled 11-page final report |
+| `AccuSleePy_Demo/report/report.pdf` | Claude (author) | Compiled 12-page final report |
 | `AccuSleePy_Demo/` | Co-owned (all agents) | The deliverable — Claude is the primary author of all scripts and files |
 | `AccuSleePy_Demo/scripts/utils/data_loading.py` | Claude (author) | Shared data loading utilities |
 | `AccuSleePy_Demo/scripts/utils/metrics.py` | Claude (author) | Shared metric computation utilities (kappa, F1, accuracy, confusion matrix) |

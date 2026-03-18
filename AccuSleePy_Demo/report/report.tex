@@ -39,7 +39,7 @@
 
 This report describes the application of AccuSleePy, a Python-based automated
 rodent sleep staging tool, to a publicly available mouse EEG/EMG dataset
-\citep{Barger2019}. The dataset comprises 50 four-hour daytime recordings from
+\citep{Barger2019, BargerOSF2025} (\url{https://osf.io/py5eb/}). The dataset comprises 50 four-hour daytime recordings from
 10 C57BL/6 mice (5 recordings per animal), sampled at 512 Hz with expert manual
 sleep-stage labels provided as ground truth. Sleep staging was performed using
 AccuSleePy's compact neural network model for 2.5-second epochs
@@ -132,9 +132,14 @@ All EEG and EMG signals are stored in Apache Parquet format
 (\texttt{recording.parquet}; shape $7{,}372{,}800 \times 2$, dtype float64)
 with columns \texttt{eeg} and \texttt{emg}. Expert manual labels are stored in
 CSV format (\texttt{labels.csv}; column \texttt{brain\_state}, dtype int64;
-5,760 rows per recording). Signals were loaded using the pandas library;
-label arrays were loaded with NumPy. Signal arrays were extracted as float64
-NumPy arrays by selecting the respective column from the loaded DataFrame.
+5,760 rows per recording). All loading operations are handled by
+\texttt{scripts/utils/data\_loading.py}, a shared utility module used by
+every script in the pipeline. This module wraps
+\texttt{accusleepy.fileio.load\_recording} (for EEG/EMG signals) and
+\texttt{accusleepy.fileio.load\_labels} (for label arrays), returning
+standard 1-D float64 and int64 NumPy arrays respectively. Centralising all
+I/O in this module ensures consistent loading behaviour across all pipeline
+stages.
 
 \subsection{Calibration}
 
@@ -198,7 +203,7 @@ to the researcher.
 
 For each recording, the predicted label sequence was compared to the expert
 manual labels on the set of held-out epochs (all epochs not included in the
-calibration set; 5,400 per recording on average). The following metrics were
+calibration set; 5,400 per recording). The following metrics were
 computed using shared utilities in \texttt{scripts/utils/metrics.py}:
 
 \begin{itemize}
@@ -330,13 +335,16 @@ as expected.
 Zero of 50 recordings were flagged by any quality control criterion. No
 recording exceeded the Wake $>$ 80\% or REM $>$ 25\% thresholds, and no
 recording had NREM below 10\%. No unbroken stage runs exceeding 60 minutes were
-detected.
+detected. The maximum observed Wake proportion across all recordings was
+53.5\%, the maximum REM was 15.3\%, and the minimum NREM was 38.2\%, all of
+which fall comfortably within the physiologically plausible bounds.
 
 A total of 481 low-confidence epochs (confidence score $\leq 0.8$) were
 identified across all 50 recordings, representing a mean of 0.167\% of total
-epochs per recording. Per-recording low-confidence epoch lists are available in
-the \texttt{low\_confidence\_epochs/} directory for manual review if desired.
-No recordings were excluded from the analysis.
+epochs per recording. The per-recording low-confidence count had a median of
+8 epochs (range: 1--28). Per-recording low-confidence epoch lists are
+available in the \texttt{low\_confidence\_epochs/} directory for manual review
+if desired. No recordings were excluded from the analysis.
 
 \subsection{Sleep Architecture}
 
@@ -349,8 +357,8 @@ from the AccuSleePy predicted labels.
 
 Figure~\ref{fig:stage_pct} shows the group-level percentage of recording time
 spent in each sleep stage. Each data point represents one animal's mean across
-its 5 recordings. The three stages accounted for $34.53 \pm 7.76\%$ (Wake),
-$54.64 \pm 6.16\%$ (NREM), and $10.83 \pm 2.18\%$ (REM) of total recording
+its 5 recordings. The three stages accounted for $34.53 \pm 5.16\%$ (Wake),
+$54.64 \pm 4.00\%$ (NREM), and $10.83 \pm 1.37\%$ (REM) of total recording
 time (mean $\pm$ SD across 10 animals).
 
 \begin{figure}[H]
@@ -365,8 +373,8 @@ time (mean $\pm$ SD across 10 animals).
 \subsubsection{Bout Duration Analysis}
 
 Figure~\ref{fig:bout} shows the distribution of mean bout duration per stage
-across animals. Mean bout durations were $41.5 \pm 15.9$\,s (Wake),
-$62.9 \pm 9.9$\,s (NREM), and $76.4 \pm 16.6$\,s (REM; mean $\pm$ SD
+across animals. Mean bout durations were $41.5 \pm 10.4$\,s (Wake),
+$62.9 \pm 7.0$\,s (NREM), and $76.4 \pm 11.1$\,s (REM; mean $\pm$ SD
 across 10 animals).
 
 \begin{figure}[H]

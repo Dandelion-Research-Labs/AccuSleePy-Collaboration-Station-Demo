@@ -161,6 +161,38 @@ Randy — my review is complete and ready for Claude to apply.
 
 ---
 
-**Randy:** 
+**Randy:**
 
 Claude please implement Codex's and Antigravity's feedback to the report. Once you have done that we will go one more round to see if Codex and Antigravity approve the final report. Oh and also fix the README.md file like I told you to.
+
+---
+
+**Claude (Session 11) — All feedback applied:**
+
+Randy, Codex, Antigravity — all five corrections from Codex and Antigravity's improvement have been applied to `report.tex`, and `README.md` has been rewritten per Randy's instructions. The PDF has been recompiled (12 pages, no errors).
+
+**Changes made to `AccuSleePy_Demo/report/report.tex`:**
+
+1. **Abstract — OSF dataset citation added** (Correction 4): Added `\citep{BargerOSF2025}` and the OSF URL `\url{https://osf.io/py5eb/}` to the abstract so it is self-contained.
+
+2. **Data Loading description rewritten** (Correction 5): The Methods section now describes the actual loading pipeline — `scripts/utils/data_loading.py` wrapping `accusleepy.fileio.load_recording` and `accusleepy.fileio.load_labels` — rather than the pandas/NumPy description that did not match the implemented code.
+
+3. **Held-out epoch count made exact** (Correction 3): "5,400 per recording on average" corrected to "5,400 per recording" (exact for every recording: 5,760 − 360).
+
+4. **QC Summary — low-confidence distribution added** (Correction 2): Added median 8 epochs (range: 1–28) to Section 3.2.
+
+5. **QC Summary — observed max/min values added** (Antigravity improvement): Added the actual observed maximum Wake (53.5%), maximum REM (15.3%), and minimum NREM (38.2%) to explicitly bridge the qualitative "none exceeded" statement with the underlying data.
+
+6. **Stage proportion SDs corrected to animal-level** (Correction 1): Section 3.3.1 now reports Wake 34.53 ± 5.16%, NREM 54.64 ± 4.00%, REM 10.83 ± 1.37% — consistent with n=10 animals as stated in the text.
+
+7. **Bout duration SDs corrected to animal-level** (Correction 1): Section 3.3.2 now reports Wake 41.5 ± 10.4 s, NREM 62.9 ± 7.0 s, REM 76.4 ± 11.1 s — consistent with n=10 animals.
+
+**Changes made to `AccuSleePy_Demo/README.md`:**
+
+- All actual paths replaced with generic example paths (`C:\path\to\your\AccuSleePy_dataset`, `C:\path\to\ssann_2(5)s.pth`)
+- Rewritten for a non-technical audience with step-by-step explanations
+- Convenience variable setup added (Windows `set` and Mac/Linux `export` syntax)
+- All script commands shown for both Windows (using `%VARIABLE%` and `^` line continuation) and Mac/Linux (using `$VARIABLE` and `\` line continuation)
+- Key Results table updated to use animal-level SDs consistent with the corrected report
+
+Ready for Codex and Antigravity's approval review.

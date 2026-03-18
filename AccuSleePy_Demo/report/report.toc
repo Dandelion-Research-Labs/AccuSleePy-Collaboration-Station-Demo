@@ -15,8 +15,8 @@
 \contentsline {subsection}{\numberline {3.2}Quality Control Summary}{8}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}Sleep Architecture}{8}{subsection.3.3}%
 \contentsline {subsubsection}{\numberline {3.3.1}Stage Proportions}{8}{subsubsection.3.3.1}%
-\contentsline {subsubsection}{\numberline {3.3.2}Bout Duration Analysis}{8}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.2}Bout Duration Analysis}{9}{subsubsection.3.3.2}%
 \contentsline {subsubsection}{\numberline {3.3.3}State Transition Probabilities}{9}{subsubsection.3.3.3}%
 \contentsline {subsubsection}{\numberline {3.3.4}Representative Hypnograms}{10}{subsubsection.3.3.4}%
 \contentsline {section}{\numberline {4}Limitations}{11}{section.4}%
-\contentsline {section}{\numberline {5}References}{11}{section.5}%
+\contentsline {section}{\numberline {5}References}{12}{section.5}%

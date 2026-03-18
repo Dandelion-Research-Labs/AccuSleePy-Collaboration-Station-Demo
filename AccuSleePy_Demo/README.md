@@ -7,6 +7,29 @@ reproduce the full analysis.
 
 ---
 
+## What You Need Before You Start
+
+Before running the pipeline, you need two things that are **not included** in
+this package:
+
+1. **The dataset** — Download it from the Open Science Framework:
+   <https://osf.io/py5eb/>
+   Save it somewhere on your computer. You will use that folder path when
+   running the scripts. In this guide we use the example path:
+   - Windows: `C:\path\to\your\AccuSleePy_dataset`
+   - Mac/Linux: `/path/to/your/AccuSleePy_dataset`
+
+2. **The pre-trained model file** — The file is named `ssann_2(5)s.pth`.
+   It is available in the same OSF repository. Download it and save it
+   somewhere on your computer. In this guide we use the example path:
+   - Windows: `C:\path\to\ssann_2(5)s.pth`
+   - Mac/Linux: `/path/to/ssann_2(5)s.pth`
+
+> **Tip:** Keep a note of where you saved these two items — you will need
+> their paths several times below.
+
+---
+
 ## Dataset
 
 **Source:** Barger, Z., Frye, C. G., Liu, D., Dan, Y., & Bouchard, K. E. (2019).
@@ -16,136 +39,268 @@ shift correction. *PLOS ONE*, 14(12), 1–18.
 
 **OSF repository:** <https://osf.io/py5eb/>
 
-**Local data path (not distributed with this package):**
-`C:\Datasets\AccuSleePy_Data`
-
 10 C57BL/6 mice × 5 four-hour daytime recordings = 50 recordings, 288,000
 epochs total. EEG and EMG sampled at 512 Hz; epoch length 2.5 s.
 
 ---
 
-## Pre-trained Model
+## Environment Setup
 
-**Model file (not distributed with this package):**
-`C:\Datasets\models\ssann_2(5)s.pth`
+This project requires **Python 3.11**. If you do not have Python installed,
+download it from <https://www.python.org/downloads/>.
 
-This is AccuSleePy's 2.5-second epoch model, matching the epoch length used in
-the dataset.
+All commands below are run in a **terminal**:
+- **Windows:** Press `Win + R`, type `cmd`, and press Enter.
+- **Mac:** Open the **Terminal** app (find it in Applications → Utilities).
+
+### Step 1 — Open a terminal and navigate to this folder
+
+Replace the path below with the actual location of the `AccuSleePy_Demo`
+folder on your computer.
+
+**Windows:**
+```cmd
+cd C:\path\to\AccuSleePy_Demo
+```
+
+**Mac/Linux:**
+```bash
+cd /path/to/AccuSleePy_Demo
+```
+
+### Step 2 — Create a virtual environment
+
+A virtual environment keeps all the packages for this project separate from
+the rest of your system. Run this once:
+
+**Windows:**
+```cmd
+python -m venv venv
+```
+
+**Mac/Linux:**
+```bash
+python3 -m venv venv
+```
+
+### Step 3 — Activate the virtual environment
+
+You need to activate the environment **every time** you open a new terminal
+to work on this project.
+
+**Windows:**
+```cmd
+venv\Scripts\activate
+```
+
+**Mac/Linux:**
+```bash
+source venv/bin/activate
+```
+
+When activation succeeds, you will see `(venv)` at the start of your
+terminal prompt.
+
+### Step 4 — Install the required packages
+
+```
+pip install -r requirements.txt
+```
+
+This downloads and installs all the Python packages the scripts need.
+It may take a few minutes. You only need to do this once.
 
 ---
 
-## Environment Setup
+## Setting Up Convenience Variables
 
-A Python 3.11 virtual environment is required. From the **project root** (one
-level above this folder):
+Typing long file paths repeatedly is tedious and error-prone. You can save
+your paths as short-hand variables and reuse them throughout the session.
 
-```bash
-python -m venv venv
+> **Important:** These variables only last for the current terminal session.
+> If you close the terminal and reopen it, you will need to set them again
+> (and re-activate the virtual environment).
 
-# Windows
-venv\Scripts\activate
+Replace the example paths below with your actual paths.
 
-pip install -r AccuSleePy_Demo/requirements.txt
+**Windows (Command Prompt):**
+```cmd
+set DATA_DIR=C:\path\to\your\AccuSleePy_dataset
+set MODEL_PATH=C:\path\to\ssann_2(5)s.pth
+set DEMO_DIR=C:\path\to\AccuSleePy_Demo
 ```
 
-All subsequent commands assume the virtual environment is activated.
+**Mac/Linux (Terminal):**
+```bash
+export DATA_DIR=/path/to/your/AccuSleePy_dataset
+export MODEL_PATH=/path/to/ssann_2(5)s.pth
+export DEMO_DIR=/path/to/AccuSleePy_Demo
+```
+
+Once set, every script command in this guide that uses `%DATA_DIR%` (Windows)
+or `$DATA_DIR` (Mac/Linux) will automatically use your actual path.
 
 ---
 
 ## Running the Pipeline
 
-Run the scripts in order. Each script writes its outputs to the paths shown
-below and prints progress to stdout.
+Run the six scripts **in order**. Each one builds on the outputs of the
+previous step.
+
+> All commands assume you are in the `AccuSleePy_Demo` folder with the
+> virtual environment activated and convenience variables set.
+
+---
 
 ### Step 1 — Data Inspection
 
+Loads and summarises all 50 recordings. Run this first to confirm your
+dataset is set up correctly.
+
+**Windows:**
+```cmd
+python scripts\01_data_inspection.py --data_dir %DATA_DIR%
+```
+
+**Mac/Linux:**
 ```bash
-python AccuSleePy_Demo/scripts/01_data_inspection.py \
-  --data_dir C:\Datasets\AccuSleePy_Data
+python scripts/01_data_inspection.py --data_dir $DATA_DIR
 ```
 
 **Expected output:**
-- Console summary of all 50 recordings (file sizes, shapes, label distribution)
-- `AccuSleePy_Demo/outputs/data_info.txt` — full inspection report mirroring stdout
+- A summary of all 50 recordings printed to the terminal
+- `outputs/data_info.txt` — a saved copy of that summary
 
 ---
 
 ### Step 2 — AccuSleePy Scoring
 
+Runs the sleep staging model on all 50 recordings. This step takes the
+longest — expect **10–20 minutes**.
+
+**Windows:**
+```cmd
+python scripts\02_accusleepy_scoring.py ^
+  --data_dir %DATA_DIR% ^
+  --model_path %MODEL_PATH% ^
+  --output_dir %DEMO_DIR%\outputs\predicted_labels
+```
+
+**Mac/Linux:**
 ```bash
-python AccuSleePy_Demo/scripts/02_accusleepy_scoring.py \
-  --data_dir C:\Datasets\AccuSleePy_Data \
-  --model_path C:\Datasets\models\ssann_2(5)s.pth \
-  --output_dir AccuSleePy_Demo/outputs/predicted_labels
+python scripts/02_accusleepy_scoring.py \
+  --data_dir $DATA_DIR \
+  --model_path $MODEL_PATH \
+  --output_dir $DEMO_DIR/outputs/predicted_labels
 ```
 
 **Expected output (100 files):**
-- `AccuSleePy_Demo/outputs/predicted_labels/<recording_id>.csv` — predicted
-  label (brain_state) and confidence score per epoch (5,760 rows each)
-- `AccuSleePy_Demo/outputs/predicted_labels/<recording_id>_calibration_indices.csv`
-  — 360 calibration epoch indices (120 per stage, distributed) per recording
-
-Runtime: approximately 10–20 minutes for all 50 recordings.
+- `outputs/predicted_labels/<recording_id>.csv` — predicted sleep stage and
+  confidence score for each of the 5,760 epochs per recording
+- `outputs/predicted_labels/<recording_id>_calibration_indices.csv` — the
+  360 calibration epoch indices used for that recording
 
 ---
 
 ### Step 3 — Quality Control
 
+Checks each recording for unusual stage proportions or long unbroken runs,
+and lists any low-confidence epochs.
+
+**Windows:**
+```cmd
+python scripts\03_quality_control.py ^
+  --predicted_labels_dir %DEMO_DIR%\outputs\predicted_labels ^
+  --output_dir %DEMO_DIR%
+```
+
+**Mac/Linux:**
 ```bash
-python AccuSleePy_Demo/scripts/03_quality_control.py \
-  --predicted_labels_dir AccuSleePy_Demo/outputs/predicted_labels \
-  --output_dir AccuSleePy_Demo
+python scripts/03_quality_control.py \
+  --predicted_labels_dir $DEMO_DIR/outputs/predicted_labels \
+  --output_dir $DEMO_DIR
 ```
 
 **Expected output:**
-- `AccuSleePy_Demo/QC_report.md` — flags for recordings with unusual stage
-  proportions or long unbroken runs; low-confidence epoch summary
-- `AccuSleePy_Demo/low_confidence_epochs/<recording_id>_low_confidence.csv`
-  (50 files) — per-recording list of epochs with confidence score ≤ 0.8
+- `QC_report.md` — quality control flags summary
+- `low_confidence_epochs/<recording_id>_low_confidence.csv` (50 files) —
+  per-recording list of epochs with confidence score ≤ 0.8
 
 ---
 
 ### Step 4 — Validation Against Expert Labels
 
+Compares AccuSleePy's predictions to the expert manual labels to confirm
+the pipeline is working correctly.
+
+**Windows:**
+```cmd
+python scripts\04_validation.py ^
+  --data_dir %DATA_DIR% ^
+  --predicted_labels_dir %DEMO_DIR%\outputs\predicted_labels ^
+  --output_dir %DEMO_DIR%\outputs
+```
+
+**Mac/Linux:**
 ```bash
-python AccuSleePy_Demo/scripts/04_validation.py \
-  --data_dir C:\Datasets\AccuSleePy_Data \
-  --predicted_labels_dir AccuSleePy_Demo/outputs/predicted_labels \
-  --output_dir AccuSleePy_Demo/outputs
+python scripts/04_validation.py \
+  --data_dir $DATA_DIR \
+  --predicted_labels_dir $DEMO_DIR/outputs/predicted_labels \
+  --output_dir $DEMO_DIR/outputs
 ```
 
 **Expected output:**
-- `AccuSleePy_Demo/outputs/validation_summary.csv` — per-recording Cohen's
-  kappa, accuracy, per-class precision/recall/F1, and confusion matrix counts
-- Console: aggregate mean ± SD kappa and accuracy across all 50 recordings
-
-Calibration epochs (360 per recording) are excluded from this comparison.
+- `outputs/validation_summary.csv` — per-recording Cohen's kappa, accuracy,
+  and per-class precision/recall/F1
+- Terminal: mean ± SD kappa and accuracy across all 50 recordings
 
 ---
 
 ### Step 5 — Descriptive Sleep Metrics
 
+Computes stage proportions, bout statistics, and state transition
+probabilities for all recordings.
+
+**Windows:**
+```cmd
+python scripts\05_sleep_metrics.py ^
+  --predicted_labels_dir %DEMO_DIR%\outputs\predicted_labels ^
+  --output_path %DEMO_DIR%\outputs\sleep_metrics.csv
+```
+
+**Mac/Linux:**
 ```bash
-python AccuSleePy_Demo/scripts/05_sleep_metrics.py \
-  --predicted_labels_dir AccuSleePy_Demo/outputs/predicted_labels \
-  --output_path AccuSleePy_Demo/outputs/sleep_metrics.csv
+python scripts/05_sleep_metrics.py \
+  --predicted_labels_dir $DEMO_DIR/outputs/predicted_labels \
+  --output_path $DEMO_DIR/outputs/sleep_metrics.csv
 ```
 
 **Expected output:**
-- `AccuSleePy_Demo/outputs/sleep_metrics.csv` — 50 rows × 26 columns: stage
-  proportions, bout statistics (mean/max duration, count) per stage, state
-  transition probability matrix, low-confidence epoch counts
+- `outputs/sleep_metrics.csv` — 50 rows × 26 columns of sleep architecture
+  metrics per recording
 
 ---
 
 ### Step 6 — Figure Generation
 
+Produces all publication-quality figures from the outputs of Steps 4 and 5.
+
+**Windows:**
+```cmd
+python scripts\06_figures.py ^
+  --sleep_metrics_csv %DEMO_DIR%\outputs\sleep_metrics.csv ^
+  --validation_csv %DEMO_DIR%\outputs\validation_summary.csv ^
+  --predicted_labels_dir %DEMO_DIR%\outputs\predicted_labels ^
+  --output_dir %DEMO_DIR%\figures
+```
+
+**Mac/Linux:**
 ```bash
-python AccuSleePy_Demo/scripts/06_figures.py \
-  --sleep_metrics_csv AccuSleePy_Demo/outputs/sleep_metrics.csv \
-  --validation_csv AccuSleePy_Demo/outputs/validation_summary.csv \
-  --predicted_labels_dir AccuSleePy_Demo/outputs/predicted_labels \
-  --output_dir AccuSleePy_Demo/figures
+python scripts/06_figures.py \
+  --sleep_metrics_csv $DEMO_DIR/outputs/sleep_metrics.csv \
+  --validation_csv $DEMO_DIR/outputs/validation_summary.csv \
+  --predicted_labels_dir $DEMO_DIR/outputs/predicted_labels \
+  --output_dir $DEMO_DIR/figures
 ```
 
 **Expected output (11 PNG files at 300 DPI):**
@@ -215,9 +370,9 @@ AccuSleePy_Demo/
 | Wake F1 | 0.9623 |
 | NREM F1 | 0.9763 |
 | REM F1 | 0.9754 |
-| Mean % Wake | 34.53 ± 7.76% |
-| Mean % NREM | 54.64 ± 6.16% |
-| Mean % REM | 10.83 ± 2.18% |
+| Mean % Wake | 34.53 ± 5.16% (across 10 animals) |
+| Mean % NREM | 54.64 ± 4.00% (across 10 animals) |
+| Mean % REM | 10.83 ± 1.37% (across 10 animals) |
 | Recordings flagged in QC | 0 / 50 |
 | Total low-confidence epochs | 481 / 288,000 (0.167%) |
 
