@@ -73,3 +73,67 @@ Randy — I am done with Phase 7. Awaiting your instructions on the review proce
 Please structure the README.md as it being for someone running this on their own local machine. There should be no mention of any of the paths we used here. Instead, use example paths like "C:\path\to\ssann_2(5)s.pth" and "C:\path\to\your\AccuSleePy_dataset". Also, make it for someone non-technical to be able to follow. Show them how to setup convenience variables also. Make sure to show how to do everything in windows and mac when applicable.
 
 Right now I am going to let Codex and Antigravity review the final report. Review it by looking through report.tex and not report.pdf. Codex I want you to come up with an appropriate review checklist for the final report in this project. It should include multiple angles to review the report from. Send a message here describing the checklist and the review process. Once you have sent the checklist, go ahead and start your review process. The review must give feedback. If there is nothing to correct, then offer improvements. Send your review here. Antigravity will use the checklist and review process set by Codex as well.
+
+---
+
+**Codex (Session 8):**
+
+Randy, here is the review checklist and process I want used for Phase 7 `report.tex`.
+
+**Checklist**
+
+1. **Spec compliance:** confirm the abstract, section structure, figures, tables, and framing match the Phase 7 requirements in `Project Details.md`.
+2. **Quantitative consistency:** verify every reported number against the authoritative artifacts:
+   - `AccuSleePy_Demo/data_guide.md`
+   - `AccuSleePy_Demo/outputs/validation_summary.csv`
+   - `AccuSleePy_Demo/outputs/sleep_metrics.csv`
+   - `AccuSleePy_Demo/QC_report.md`
+3. **Method fidelity:** confirm the Methods section describes the implemented scripts and actual workflow rather than an approximate or idealized version.
+4. **Scientific communication:** check aggregation units, terminology, validation framing, limitation statements, and citations for internal consistency.
+5. **Reproducibility clarity:** confirm the report points to the right portable artifacts and does not rely on unstated local assumptions.
+
+**Review process**
+
+1. Read `AccuSleePy_Demo/report/report.tex` end-to-end.
+2. Cross-check each quantitative claim and each methodological statement against the approved outputs and source scripts.
+3. Flag required corrections first. If no corrections are needed, then suggest improvements.
+4. Cite line numbers in `report.tex` for every finding so the fixes are unambiguous.
+
+I am starting that review now.
+
+---
+
+**Codex (Session 8):**
+
+I completed the `report.tex` review against the approved outputs and scripts. The report is close, but I do have required corrections:
+
+1. **Aggregation mismatch in the sleep-architecture summaries.**
+   - `AccuSleePy_Demo/report/report.tex:53-56` and `:352-370` describe the stage-percentage and bout-duration summaries as animal-level / "across 10 animals", but the SD values in the text match the 50-recording statistics from `outputs/sleep_metrics.csv`, not the 10-animal means used by the figure.
+   - If the text is meant to stay animal-level (which matches the Phase 6 figure design), the corrected SDs are:
+     - Stage percentages: Wake `34.53 +/- 5.16%`, NREM `54.64 +/- 4.00%`, REM `10.83 +/- 1.37%`
+     - Mean bout durations: Wake `41.5 +/- 10.4 s`, NREM `62.9 +/- 7.0 s`, REM `76.4 +/- 11.1 s`
+   - Otherwise, the text should be rewritten to say these are recording-level summaries across 50 recordings. Right now the report mixes the two units.
+
+2. **Section 3.2 is missing the requested low-confidence distribution summary.**
+   - `AccuSleePy_Demo/report/report.tex:335-338` gives the total low-confidence count and mean percentage, but the Phase 7 brief also asked for the distribution across recordings as median and range.
+   - From `outputs/sleep_metrics.csv`, the per-recording low-confidence count is median `8` epochs with range `1-28`.
+
+3. **Held-out epoch count is stated imprecisely.**
+   - `AccuSleePy_Demo/report/report.tex:199-201` says validation used "5,400 per recording on average".
+   - This should be exact, not average: every recording has `5,760 - 360 = 5,400` held-out epochs, which is also what `outputs/validation_summary.csv` shows for all 50 recordings.
+
+4. **The abstract does not yet stand alone on the dataset citation/link requirement.**
+   - `AccuSleePy_Demo/report/report.tex:40-42` cites the 2019 paper but does not include the OSF dataset link/citation that the Phase 7 requirements called for in the abstract.
+   - I would add the OSF dataset citation or URL directly in the abstract so that section is self-contained.
+
+5. **The data-loading description does not match the implemented pipeline closely enough.**
+   - `AccuSleePy_Demo/report/report.tex:131-137` says signals were loaded with pandas and labels with NumPy, but the actual reusable pipeline path is `scripts/utils/data_loading.py`, which delegates to `accusleepy.fileio.load_recording` and `accusleepy.fileio.load_labels` before returning NumPy arrays.
+   - I recommend rewriting that paragraph to describe the actual loading layer used by the pipeline.
+
+Outside of those points, the overall structure, validation framing, figure references, and core quantitative results are in good shape.
+
+---
+
+**Randy:**
+
+Antigravity please use the same checklist and review process as Codex. Feedback in the form of corrections and/or improvements is required. Once Antigravity is done, I will let Claude apply all the corrections and improvements set out by Codex and Antigravity.
