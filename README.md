@@ -2,7 +2,8 @@
 
 ## Introduction
 
-The following is a demo of Collaboration Station™ running an AccuSleePy sleep staging pipeline. All the finished work is in the `AccuSleePy_Demo/` folder. `AccuSleePy_Demo/README.md` explains how to reproduce the full pipeline from scratch on your own machine. `AccuSleePy_Demo/report/report.pdf` is the written analytical report covering the dataset, methods, validation results, and sleep architecture findings.
+The following is a demo of [Collaboration Station™](https://github.com/Dandelion-Research-Labs/Collaboration-Station)
+running an AccuSleePy sleep staging pipeline. All the finished work is in the `AccuSleePy_Demo/` folder. `AccuSleePy_Demo/README.md` explains how to reproduce the full pipeline from scratch on your own machine. `AccuSleePy_Demo/report/report.pdf` is the written analytical report covering the dataset, methods, validation results, and sleep architecture findings.
 
 This demo has one major implication worth naming upfront: researchers should no longer feel limited by not knowing how to code certain data pipelines. The agents will do the coding. Moreover, the code they create will be well-commented and reproducible and come with documentation for others to understand and run it. What is required of researchers now is simply knowing what sort of data pipelines are available and what they can do. This presents an opportunity to explore data in ways that might've been too time consuming or difficult in the past. To reinforce this point, I first learned about AccuSleePy three weeks prior to starting this demo. To this day, I have still not written even one line of AccuSleePy code. This project took a total of 6 hours to complete from first agent launch. I only participated for 2 of those 6 hours, steering the agents and checking the work. The rest of the time I was working on other things. 
 
