@@ -46,12 +46,14 @@ epochs total. EEG and EMG sampled at 512 Hz; epoch length 2.5 s.
 
 ## Environment Setup
 
-This project requires **Python 3.11**. If you do not have Python installed,
+This project uses **Python 3.11**. If you do not have Python installed,
 download it from <https://www.python.org/downloads/>.
 
 All commands below are run in a **terminal**:
-- **Windows:** Press `Win + X` and select **Windows PowerShell** (or **Terminal** in Windows 11).
+- **Windows:** Press `Win + r` and type **PowerShell**.
 - **Mac:** Open the **Terminal** app (find it in Applications → Utilities).
+
+**Note:** The following Windows commands were run and verified to work. Mac/Linux commands are provided but have not been tested due to lack of access to a Mac/Linux machine.
 
 ### Step 1 — Open a terminal and navigate to this folder
 
